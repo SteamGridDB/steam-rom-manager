@@ -798,8 +798,15 @@ export class PreviewEngine {
           );
           return;
         }
-        let importedApps: string[] = [];
+        // (by image pool: usually a game's title)
+        const importedApps = new Set<string>();
+        const notInList = new Set<string>();
         for (const item of read.items) {
+          if (!this.onlineImages[item.artworkType][item.pool]) {
+            notInList.add(item.pool); // e.g. a game uninstalled since
+            continue;
+          }
+          importedApps.add(item.pool);
           this.addUniqueLocalImage(
             item.pool,
             {
@@ -810,10 +817,8 @@ export class PreviewEngine {
             item.artworkType,
             "imported",
           );
-          if (!importedApps.includes(item.pool)) {
-            importedApps.push(item.pool);
-          }
         }
+        for (const pool of importedApps) notInList.delete(pool);
         for (const directory in this.previewData) {
           for (const userId in this.previewData[directory]) {
             for (const appId in this.previewData[directory][userId].apps) {
@@ -837,10 +842,18 @@ export class PreviewEngine {
         }
         this.loggerService.success(
           this.lang.success.importSelectionsSuccess__i.interpolate({
-            count: importedApps.length,
+            count: importedApps.size,
           }),
           { invokeAlert: true, alertTimeout: 3000 },
         );
+        if (notInList.size) {
+          this.loggerService.info(
+            this.lang.info.importSelectionsNotInList__i.interpolate({
+              count: notInList.size,
+              titles: [...notInList].join(", "),
+            }),
+          );
+        }
       } catch (e) {
         if (e instanceof SyntaxError) {
           this.loggerService.error(

@@ -147,7 +147,8 @@
         "noAccountsWarning": "User accounts not found. Incorrect Steam directory?",
         "preparingExport": "Preparing export of artwork choices.",
         "exportProgress__i": "Saving artwork choices ${progress}.",
-        "readingSelections": "Applying imported artwork choices."
+        "readingSelections": "Applying imported artwork choices.",
+        "importSelectionsNotInList__i": "Skipped the artwork choices of ${count} game(s) not in the list: ${titles}"
       },
       "errors": {
         "fatalError": "Fatal error occurred in Add Games. See event log for details.",
