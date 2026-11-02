@@ -20,11 +20,22 @@
   --color-alert-background: var(--srm-glass);
   --color-alert-text: var(--srm-text);
   --color-app-loading-spinner: var(--srm-accent);
-  --color-click-button-background: var(--srm-surface-raised);
+  // Buttons, switches and empty artwork are mixed toward the text color, so
+  // they stand out from the surfaces in any theme (light or dark), however
+  // close its surface colors are.
+  --color-click-button-background: color-mix(
+    in srgb,
+    var(--srm-text) 10%,
+    var(--srm-surface-raised)
+  );
   --color-click-button-background-active: var(--srm-accent-hover);
   --color-click-button-background-disabled: var(--srm-surface-sunken);
   --color-click-button-background-hover: var(--srm-accent);
-  --color-click-button-border: transparent;
+  --color-click-button-border: color-mix(
+    in srgb,
+    var(--srm-text) 12%,
+    transparent
+  );
   --color-click-button-border-active: transparent;
   --color-click-button-border-disabled: transparent;
   --color-click-button-border-hover: transparent;
@@ -164,8 +175,15 @@
   --color-select-arrow-down-hover: var(--srm-text-muted);
   --color-preview-app-button-active: var(--srm-text);
   --color-preview-app-button-hover: var(--srm-text-muted);
-  --color-preview-image-downloading-background: var(--srm-surface-sunken);
-  --color-preview-image-retrieving-url-background: var(--srm-surface-sunken);
+  --color-preview-image-empty: color-mix(
+    in srgb,
+    var(--srm-text) 7%,
+    var(--srm-surface-sunken)
+  );
+  --color-preview-image-downloading-background: var(--color-preview-image-empty);
+  --color-preview-image-retrieving-url-background: var(
+    --color-preview-image-empty
+  );
   --color-ng-select-arrow: var(--srm-text-muted);
   --color-ng-select-arrow-active: var(--srm-text-muted);
   --color-ng-select-arrow-hover: var(--srm-text-muted);
@@ -202,10 +220,18 @@
   --color-ng-toggle-button-button-fill-active: #ffffff;
   --color-ng-toggle-button-button-fill-active-hover: #ffffff;
   --color-ng-toggle-button-button-fill-hover: #ffffff;
-  --color-ng-toggle-button-fill: var(--srm-surface-hover);
+  --color-ng-toggle-button-fill: color-mix(
+    in srgb,
+    var(--srm-text) 28%,
+    var(--srm-surface-raised)
+  );
   --color-ng-toggle-button-fill-active: var(--srm-accent);
   --color-ng-toggle-button-fill-active-hover: var(--srm-accent);
-  --color-ng-toggle-button-fill-hover: var(--srm-surface-hover);
+  --color-ng-toggle-button-fill-hover: color-mix(
+    in srgb,
+    var(--srm-text) 36%,
+    var(--srm-surface-raised)
+  );
   --color-ng-toggle-button-text: var(--srm-text-muted);
   --color-parser-menu-scrollbar-thumb: var(--srm-scrollbar);
   --color-parser-menu-scrollbar-track: transparent;
@@ -224,10 +250,14 @@
   --color-preview-directory-background: var(--srm-surface);
   --color-preview-image-border: transparent;
   --color-preview-image-downloading-border: var(--srm-accent);
-  --color-preview-image-failed-background: var(--srm-surface-sunken);
+  --color-preview-image-failed-background: var(--color-preview-image-empty);
   --color-preview-image-failed-border: var(--srm-danger);
-  --color-preview-image-not-found-background: var(--srm-surface-sunken);
-  --color-preview-image-not-found-border: transparent;
+  --color-preview-image-not-found-background: var(--color-preview-image-empty);
+  --color-preview-image-not-found-border: color-mix(
+    in srgb,
+    var(--srm-text) 16%,
+    transparent
+  );
   --color-preview-image-retrieving-url-border: var(--srm-info);
   --color-preview-menu-background: var(--srm-glass);
   --color-preview-scrollbar-thumb: var(--srm-scrollbar);
@@ -258,10 +288,14 @@
   --color-titlebar-minimize-text-active: var(--srm-text-muted);
   --color-titlebar-minimize-text-hover: var(--srm-text-muted);
   --color-titlebar-title: var(--srm-text-muted);
-  --color-toggle-button-background: var(--srm-surface-raised);
+  --color-toggle-button-background: var(--color-click-button-background);
   --color-toggle-button-background-active: var(--srm-accent);
   --color-toggle-button-background-active-hover: var(--srm-accent);
-  --color-toggle-button-background-hover: var(--srm-surface-hover);
+  --color-toggle-button-background-hover: color-mix(
+    in srgb,
+    var(--srm-text) 16%,
+    var(--srm-surface-raised)
+  );
   --color-toggle-button-border: transparent;
   --color-toggle-button-border-active: transparent;
   --color-toggle-button-border-active-hover: transparent;
