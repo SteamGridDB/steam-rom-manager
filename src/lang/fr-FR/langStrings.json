@@ -147,7 +147,8 @@
         "noAccountsWarning": "Comptes utilisateur introuvables. Répertoire Steam incorrect?",
         "preparingExport": "Préparation de l'exportation des choix d'image.",
         "exportProgress__i": "Sauvegarde des choix d'image ${progress}.",
-        "readingSelections": "Application des choix d'image importés."
+        "readingSelections": "Application des choix d'image importés.",
+        "importSelectionsNotInList__i": "Skipped the artwork choices of ${count} game(s) not in the list: ${titles}"
       },
       "errors": {
         "fatalError": "Une erreur fatale est survenue dans Aperçu. Consultez le journal des événements pour plus de détails.",
@@ -1153,7 +1154,10 @@
         "updateViaEmuDeck": "An update is available, please update via EmuDeck.",
         "updateAvailable": "An update is available. Download it now?",
         "updatePortable": "An update is available. <a href=\"https://github.com/SteamGridDB/steam-rom-manager/releases/latest\">Download it now?</a>",
-        "updateDownloaded": "Update downloaded. Restart now?"
+        "updateDownloaded": "Update downloaded. Restart now?",
+        "downloading": "Downloading update…",
+        "downloadFailed": "The update couldn't be downloaded. Try again later, or <a href=\"https://github.com/SteamGridDB/steam-rom-manager/releases/latest\">download it from GitHub</a>.",
+        "progress__i": "${transferred} of ${total} · ${speed}/s"
       }
     }
   },
