@@ -41,7 +41,7 @@ import markdownItAttrs from "markdown-it-attrs";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  updateMessage: string = "";
+  updateMessage: any = "";
   settingsLoaded: boolean = false;
   languageLoaded: boolean = false;
   shouldHideComponent: boolean = false;
@@ -118,6 +118,9 @@ export class AppComponent {
 
     ipcService.on("updater_message", (message) => {
       this.updateMessage = message;
+      // (OnPush: otherwise the notifier only sees it at the next event,
+      // e.g. a mouse move)
+      this.changeDetectionRef.markForCheck();
     });
   }
 }

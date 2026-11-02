@@ -56,7 +56,8 @@ if (cliRequest) {
 // Auto updater setup
 autoUpdater.logger = log;
 autoUpdater.autoDownload = false;
-const cancellationToken = new CancellationToken();
+// (a cancelled token stays cancelled: a new one per download)
+let cancellationToken = new CancellationToken();
 
 // Window setup
 const windowStateKeeper = require("electron-window-state");
@@ -148,9 +149,11 @@ autoUpdater.on("error", (err) => {
   console.log(err);
 });
 autoUpdater.on("download-progress", (progressObj) => {
-  let log_message = "Progress: " + Math.round(progressObj.percent) + "%";
-  console.log(log_message);
-  mainWindow.webContents.send("updater_message", { progress: log_message });
+  console.log("Progress: " + Math.round(progressObj.percent) + "%");
+  const { percent, transferred, total, bytesPerSecond } = progressObj;
+  mainWindow.webContents.send("updater_message", {
+    progress: { percent, transferred, total, bytesPerSecond },
+  });
 });
 autoUpdater.on("update-downloaded", (info) => {
   mainWindow.webContents.send("updater_message", "update_downloaded");
@@ -205,7 +208,13 @@ app.on("ready", async () => {
       autoUpdater.checkForUpdatesAndNotify();
     });
     ipcMain.on("download_update", (event: IpcMainEvent) => {
-      autoUpdater.downloadUpdate(cancellationToken);
+      const token = (cancellationToken = new CancellationToken());
+      autoUpdater.downloadUpdate(token).catch((err) => {
+        console.log(err);
+        if (!token.cancelled) {
+          mainWindow.webContents.send("updater_message", "update_error");
+        }
+      });
     });
     ipcMain.on("restart_app", (event: IpcMainEvent) => {
       autoUpdater.quitAndInstall();
