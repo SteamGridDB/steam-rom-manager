@@ -55,6 +55,11 @@ export const controllerTemplates: string = path.join(
 export const devThemePath: string = "./renderer/styles/themes.global.scss";
 export const savedListFilename: string = "addedItemsV2.json";
 export const imageCacheFilename: string = "artworkCache.json";
+// The folder file dialogs open in (the last one picked from).
+export const lastDialogFolder: string = path.join(
+  userDataDir,
+  "lastDialogFolder.json",
+);
 export const fuzzyList: string = path.join(userDataDir, "fuzzyList.json");
 export const fuzzyCache: string = path.join(userDataDir, "fuzzyCache.json");
 export const customVariables: string = path.join(

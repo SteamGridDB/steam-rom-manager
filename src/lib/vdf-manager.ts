@@ -326,6 +326,9 @@ export class VDF_Manager {
             );
             listItem.shortcuts.extraneous =
               extraneousAppIds[steamDirectory][userId];
+            for (const appId of stale) {
+              if (addedApps[appId].artworkOnly) forgetIcon(listItem, appId);
+            }
 
             for (let appId in apps) {
               let app = apps[appId];
@@ -414,6 +417,13 @@ export class VDF_Manager {
                       if (app.sortAsTitle) {
                         item.sortas = app.sortAsTitle;
                       }
+                    } else if (artworkOnly && icon_path) {
+                      // A shortcut SRM didn't add (Non-SRM Shortcuts): Steam
+                      // shows the icon named in shortcuts.vdf, not the grid's.
+                      const shortcut = listItem.shortcuts.getItemByShortAppId(
+                        steam.shortenAppId(appId),
+                      );
+                      if (shortcut) shortcut.icon = icon_path;
                     } else if (!artworkOnly) {
                       listItem.shortcuts.addItem(appId, {
                         appid: steam.generateShortcutId(
@@ -436,7 +446,13 @@ export class VDF_Manager {
                   extraneousAppIds[steamDirectory][userId].push(appId);
                   stale.push(appId);
                 }
-                listItem.shortcuts.removeItem(appId);
+                if (superTypes[ArtworkOnlyType].includes(app.parserType)) {
+                  // (a Steam game, or a shortcut SRM didn't add: only its
+                  // artwork goes)
+                  forgetIcon(listItem, appId);
+                } else {
+                  listItem.shortcuts.removeItem(appId);
+                }
                 listItem.addedItems.removeItem(appId);
                 for (const artworkType of artworkTypes) {
                   listItem.screenshots.removeItem(
@@ -503,7 +519,8 @@ export class VDF_Manager {
               return;
             }
             for (const appId in addedApps) {
-              listItem.shortcuts.removeItem(appId);
+              if (addedApps[appId].artworkOnly) forgetIcon(listItem, appId);
+              else listItem.shortcuts.removeItem(appId);
               listItem.screenshots.removeItem(appId);
               for (let artworkType of artworkTypes) {
                 listItem.screenshots.removeItem(
@@ -526,5 +543,20 @@ export class VDF_Manager {
           );
         });
     });
+  }
+}
+
+// Its artwork going: a shortcut SRM didn't add stops pointing at the icon SRM
+// wrote (Steam then shows the executable's icon). Icons set otherwise stay.
+function forgetIcon(listItem: VDF_ListItem, appId: string) {
+  const shortAppId = steam.shortenAppId(appId);
+  const shortcut = listItem.shortcuts.getItemByShortAppId(shortAppId);
+  if (
+    typeof shortcut?.icon === "string" &&
+    path.resolve(path.dirname(shortcut.icon)) ===
+      path.resolve(listItem.screenshots.gridDir) &&
+    path.basename(shortcut.icon).startsWith(`${shortAppId}_icon.`)
+  ) {
+    shortcut.icon = "";
   }
 }

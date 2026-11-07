@@ -180,6 +180,18 @@ export class VDF_ShortcutsFile {
     else return undefined;
   }
 
+  // A shortcut by the appid stored in it, e.g. one SRM didn't add: its exe
+  // and name may not give that id (renamed, or made by another tool).
+  getItemByShortAppId(shortAppId: string) {
+    if (!this.valid) return undefined;
+    return this.fileData["shortcuts"].find(
+      (shortcut: any) =>
+        shortcut?.appid !== undefined &&
+        steam.shortenAppId(steam.appifyShortcutId(shortcut.appid)) ===
+          shortAppId,
+    );
+  }
+
   removeItem(appId: string) {
     if (this.valid && this.indexMap[appId] !== undefined) {
       this.fileData["shortcuts"][this.indexMap[appId]] = undefined;

@@ -32,6 +32,8 @@ import {
 } from "../helpers/preview-harness";
 import { steamControlCalls } from "../stubs/stop-start-steam";
 import { userDataDir } from "../../src/paths";
+import { generateShortcutId } from "../../src/lib/helpers/steam";
+const shortcutsParser = require("steam-shortcut-editor");
 
 const ACCOUNT = "11111111";
 const fuzzyList = ["Super Mario World", "Chrono Trigger", "Metroid Prime"];
@@ -246,6 +248,102 @@ describe("save pipeline (characterization)", () => {
     expect(errors(h.log)).toEqual([]);
     expect(ok).toBe(true);
     expect(state()).toMatchSnapshot();
+  });
+
+  describe("Non-SRM Shortcuts (artwork only)", () => {
+    const shortcutsFile = () =>
+      path.join(steamDir, "userdata", ACCOUNT, "config", "shortcuts.vdf");
+    // The user's own shortcuts: one renamed since it was made (its appid
+    // isn't the one its exe and name give), one as Steam makes them.
+    const chronoExe = '"C:\\Games\\ct.exe"';
+    beforeEach(() => {
+      fs.writeFileSync(
+        shortcutsFile(),
+        shortcutsParser.writeBuffer({
+          shortcuts: [
+            {
+              appid: -1000000002,
+              AppName: "Super Mario World",
+              Exe: '"C:\\Games\\smw.exe"',
+              StartDir: '"C:\\Games\\"',
+              icon: "C:\\Games\\smw.ico",
+              AllowDesktopConfig: 1,
+            },
+            {
+              appid: generateShortcutId(chronoExe, "Chrono Trigger"),
+              AppName: "Chrono Trigger",
+              Exe: chronoExe,
+              StartDir: '"C:\\Games\\"',
+            },
+          ],
+        }),
+      );
+    });
+    const nonSrmConfig = () =>
+      makeConfig({
+        parserType: "Non-SRM Shortcuts",
+        configTitle: "Mine",
+        parserId: "non-srm-parser",
+        steamDirectory: steamDir,
+        titleModifier: "${fuzzyTitle}",
+      });
+    const shortcuts = () =>
+      shortcutsParser.parseBuffer(fs.readFileSync(shortcutsFile())).shortcuts;
+    const grid = () =>
+      path.join(steamDir, "userdata", ACCOUNT, "config", "grid");
+
+    it("sets the shortcut's icon to the one written, and changes nothing else", async () => {
+      const { ok, log } = await addAll([nonSrmConfig()]);
+      expect(errors(log)).toEqual([]);
+      expect(ok).toBe(true);
+      const [shortcut, chrono] = shortcuts();
+      for (const s of [shortcut, chrono]) {
+        expect(path.dirname(s.icon)).toBe(grid());
+        expect(fs.existsSync(s.icon)).toBe(true);
+      }
+      // (SRM writes Steam's keys in its own casing: appname, exe)
+      expect(_.omit(shortcut, "icon")).toEqual({
+        appid: -1000000002,
+        appname: "Super Mario World",
+        exe: '"C:\\Games\\smw.exe"',
+        StartDir: '"C:\\Games\\"',
+        AllowDesktopConfig: true, // (as the reader gives it back)
+      });
+    });
+
+    it("removing them keeps the shortcuts; the icon fields are cleared", async () => {
+      await addAll([nonSrmConfig()]);
+      const h = harness([nonSrmConfig()]);
+      await h.generate();
+      h.markAllForRemoval();
+      const ok = await h.service.saveData({
+        batchWrite: false,
+        removeAll: false,
+      });
+      expect(errors(h.log)).toEqual([]);
+      expect(ok).toBe(true);
+      const all = shortcuts();
+      expect(all.map((s: any) => [s.appname, s.icon])).toEqual([
+        ["Super Mario World", ""],
+        ["Chrono Trigger", ""],
+      ]);
+    });
+
+    it("remove all (nuke) keeps them too; the icon fields are cleared", async () => {
+      await addAll([nonSrmConfig()]);
+      const h = harness([nonSrmConfig()]);
+      const ok = await h.service.saveData({
+        batchWrite: false,
+        removeAll: true,
+      });
+      expect(errors(h.log)).toEqual([]);
+      expect(ok).toBe(true);
+      const all = shortcuts();
+      expect(all.map((s: any) => [s.appname, s.icon])).toEqual([
+        ["Super Mario World", ""],
+        ["Chrono Trigger", ""],
+      ]);
+    });
   });
 
   it("nuke: removes everything SRM added, keeps the user's", async () => {
