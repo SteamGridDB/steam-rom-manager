@@ -11,7 +11,7 @@ import { artworkTypes } from "../../lib/artwork-types";
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: "version",
-  latestVersion: 30,
+  latestVersion: 31,
   fields: {
     undefined: {
       version: { method: () => 0 },
@@ -451,6 +451,21 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
       },
       compatToolNameCustom: {
         method: (oldValue) => (typeof oldValue === "string" ? oldValue : ""),
+      },
+    },
+    30: {
+      version: { method: versionUp },
+      scriptWrapper: {
+        method: (oldValue) => {
+          const stage = () => ({ script: "", delay: 0 });
+          return {
+            enabled: false,
+            preLaunch: stage(),
+            postLaunch: stage(),
+            postExit: stage(),
+            ...(oldValue && typeof oldValue === "object" ? oldValue : {}),
+          };
+        },
       },
     },
   },

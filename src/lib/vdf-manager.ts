@@ -20,6 +20,7 @@ import * as appImage from "./helpers/app-image";
 import * as steam from "./helpers/steam";
 import * as _ from "lodash";
 import * as path from "path";
+import { wrapperArguments, wrapperFile } from "./launch-wrapper";
 import { merge, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { ArtworkCache } from ".";
@@ -411,7 +412,7 @@ export class VDF_Manager {
                         (item.appname = app.title);
                       item.exe = app.executableLocation;
                       item.StartDir = app.startInDirectory;
-                      item.LaunchOptions = app.argumentString;
+                      item.LaunchOptions = launchOptions(app, userId, appId);
                       item.icon = icon_path;
                       item.tags = _.union(app.steamCategories, item.tags);
                       if (app.sortAsTitle) {
@@ -433,7 +434,7 @@ export class VDF_Manager {
                         appname: app.title,
                         exe: app.executableLocation,
                         StartDir: app.startInDirectory,
-                        LaunchOptions: app.argumentString,
+                        LaunchOptions: launchOptions(app, userId, appId),
                         icon: icon_path,
                         tags: app.steamCategories,
                         ...(app.sortAsTitle && { sortas: app.sortAsTitle }),
@@ -559,4 +560,12 @@ function forgetIcon(listItem: VDF_ListItem, appId: string) {
   ) {
     shortcut.icon = "";
   }
+}
+
+// A shortcut's launch options: the game's own, or (wrapped) running the file
+// SRM writes for the game (lib/launch-wrapper), which has the game's.
+function launchOptions(app: PreviewDataApp, userId: string, appId: string) {
+  return app.launchWrapper
+    ? wrapperArguments(wrapperFile(userId, steam.shortenAppId(appId)))
+    : app.argumentString;
 }

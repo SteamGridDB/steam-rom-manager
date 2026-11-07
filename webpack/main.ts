@@ -43,6 +43,11 @@ let clientConfig: Configuration = {
         type: "asset/source",
       },
       {
+        // the launch wrapper's scripts, written out when SRM saves
+        test: /\.(ps1|sh)$/i,
+        type: "asset/source",
+      },
+      {
         // images referenced from the markdown docs
         test: /\.(gif|png|jpe?g|svg)$/i,
         type: "asset/resource",

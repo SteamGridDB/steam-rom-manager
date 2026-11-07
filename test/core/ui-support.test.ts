@@ -3,7 +3,6 @@ import * as fs from "fs";
 import * as path from "path";
 import * as paths from "../../src/paths";
 import { UiSupport } from "../../src/core/ui-support";
-import { ShellScripts } from "../../src/core/shell-scripts";
 import { submitBugReport } from "../../src/core/bug-report";
 import { LibraryReader } from "../../src/core/library-reader";
 import { Fetch } from "../../src/core/http";
@@ -106,45 +105,6 @@ describe("UiSupport", () => {
         appendGlob: "${title}.@(sfc|smc)",
       }),
     ).toBe(`${escapedDir}/\${title}.sfc`);
-  });
-});
-
-describe("ShellScripts", () => {
-  const scriptsDir = () => path.join(paths.userDataDir, "scripts");
-
-  it("downloads files/shellscripts into userData/scripts", async () => {
-    fs.rmSync(scriptsDir(), { recursive: true, force: true });
-    const logger = makeLogger();
-    const github = makeFakeGithub();
-    const scripts = new ShellScripts(logger.service as any, github.fetch);
-    const states: boolean[] = [];
-    scripts.onDownloadingChange((d) => states.push(d));
-    await scripts.download();
-    expect(fs.readFileSync(path.join(scriptsDir(), "bnet.ps1"), "utf8")).toBe(
-      fs.readFileSync(
-        path.join(__dirname, "../../files/shellscripts/bnet.ps1"),
-        "utf8",
-      ),
-    );
-    expect(states).toEqual([true, false]);
-    expect(logger.log.map((l) => l.message)).toEqual([
-      "Shell scripts have been updated.",
-    ]);
-  });
-
-  it("reports a failed download and is not left 'downloading'", async () => {
-    const logger = makeLogger();
-    const github = makeFakeGithub();
-    github.setOffline(true);
-    const scripts = new ShellScripts(logger.service as any, github.fetch);
-    await scripts.download();
-    expect(scripts.getDownloading()).toBe(false);
-    expect(logger.log).toEqual([
-      expect.objectContaining({
-        level: "error",
-        message: expect.stringMatching(/^Could not update shell scripts/),
-      }),
-    ]);
   });
 });
 

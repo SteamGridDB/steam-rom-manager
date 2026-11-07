@@ -12,7 +12,7 @@ export const availableParserInputs: Record<ParserType, string[]> = {
   "Glob-regex": ["glob-regex"],
   Manual: ["manualManifests"],
   "Amazon Games": ["amazonGamesExeOverride", "amazonGamesLauncherMode"],
-  Epic: ["epicManifests", "epicLauncherMode"],
+  Epic: ["epicManifests", "epicLauncherMode", "epicWaitForExit"],
   Legendary: [
     "legendaryExeOverride",
     "legendaryInstalledFile",
@@ -51,6 +51,7 @@ export const availableParserInputsInfo: Record<
   Epic: {
     epicManifests: { inputType: "dir" },
     epicLauncherMode: { inputType: "toggle" },
+    epicWaitForExit: { inputType: "toggle" },
   },
   Legendary: {
     legendaryExeOverride: { inputType: "path" },

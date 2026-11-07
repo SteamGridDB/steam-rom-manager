@@ -378,21 +378,6 @@
         </div>
       </div>
     </div>
-    <div class="inputContainer" *ngIf="showShellScripts">
-      <div class="inlineGroup">
-        <div
-          class="clickButton dangerousButton"
-          [class.disabled]="ssService.isDownloading | async"
-          style="font-size: 0.85em"
-          (click)="ssService.download(true)"
-        >
-          {{ lang.text.forceDownload_btn }}
-        </div>
-        <div class="text" style="margin-left: 0.25em">
-          {{ lang.text.shellScripts_desc }}
-        </div>
-      </div>
-    </div>
   </div>
   <div>
     <div class="section">

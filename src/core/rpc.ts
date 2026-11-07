@@ -102,10 +102,6 @@ export const rpcApi = {
     sync: [],
     async: ["read", "details", "launch"],
   },
-  shellScripts: {
-    sync: ["getDownloading"],
-    async: ["download"],
-  },
   support: {
     sync: ["browsedValue"],
     async: [
@@ -168,7 +164,6 @@ export interface RpcEventMap {
   "writer:progress": { update: string; batch: number };
   "providers:event": { id: string; event: string; data: any };
   "providers:stopped": null;
-  "shellScripts:downloading": boolean;
   ready: string; // a store name, once it has loaded
 }
 

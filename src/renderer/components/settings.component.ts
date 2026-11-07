@@ -16,7 +16,6 @@ import {
   FuzzyService,
   CustomVariablesService,
   ConfigurationPresetsService,
-  ShellScriptsService,
   LoggerService,
 } from "../services";
 import { APP } from "../../variables";
@@ -56,7 +55,6 @@ export class SettingsComponent implements OnDestroy {
   };
   userAccountsPlaceholder: string;
   chooseUserAccountsVisible: boolean = false;
-  showShellScripts: boolean = false;
   showMarkdown: boolean = false;
   tab: "settings" | "themeEditor" = "settings";
   private subscriptions: Subscription = new Subscription();
@@ -69,7 +67,6 @@ export class SettingsComponent implements OnDestroy {
     private parsersService: ParsersService,
     public cpService: ConfigurationPresetsService,
     public cvService: CustomVariablesService,
-    public ssService: ShellScriptsService,
     private changeDetectionRef: ChangeDetectorRef,
     private renderer: Renderer2,
     private elementRef: ElementRef,

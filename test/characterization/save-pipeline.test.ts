@@ -32,7 +32,15 @@ import {
 } from "../helpers/preview-harness";
 import { steamControlCalls } from "../stubs/stop-start-steam";
 import { userDataDir } from "../../src/paths";
-import { generateShortcutId } from "../../src/lib/helpers/steam";
+import {
+  appifyShortcutId,
+  generateShortcutId,
+  shortenAppId,
+} from "../../src/lib/helpers/steam";
+import {
+  wrapperArguments,
+  wrapperExecutable,
+} from "../../src/lib/launch-wrapper";
 const shortcutsParser = require("steam-shortcut-editor");
 
 const ACCOUNT = "11111111";
@@ -343,6 +351,73 @@ describe("save pipeline (characterization)", () => {
         ["Super Mario World", ""],
         ["Chrono Trigger", ""],
       ]);
+    });
+  });
+
+  describe("script wrapper", () => {
+    const wrapped = (enabled = true) =>
+      snesConfig({
+        compatToolName: "",
+        scriptWrapper: {
+          enabled,
+          preLaunch: { script: "/scripts/before.sh", delay: 2 },
+          postLaunch: { script: "", delay: 0 },
+          postExit: { script: "", delay: 0 },
+        },
+      });
+    const shortcuts = () =>
+      shortcutsParser.parseBuffer(
+        fs.readFileSync(
+          path.join(steamDir, "userdata", ACCOUNT, "config", "shortcuts.vdf"),
+        ),
+      ).shortcuts as any[];
+    const wrapperDir = path.join(userDataDir, "launch-wrappers", ACCOUNT);
+    const wrapperFiles = () =>
+      fs.existsSync(wrapperDir) ? fs.readdirSync(wrapperDir).sort() : [];
+    beforeEach(() => fs.rmSync(wrapperDir, { recursive: true, force: true }));
+
+    it("a wrapped game's shortcut runs its file, which has the game's command", async () => {
+      const { ok, log } = await addAll([wrapped()]);
+      expect(errors(log)).toEqual([]);
+      expect(ok).toBe(true);
+      const mine = shortcuts().filter((s) => s.appname !== "My Manual Shortcut");
+      expect(mine).toHaveLength(2);
+      expect(wrapperFiles()).toHaveLength(2);
+      for (const s of mine) {
+        expect(s.exe).toBe(wrapperExecutable());
+        const file = path.join(
+          wrapperDir,
+          `${shortenAppId(appifyShortcutId(s.appid))}${process.platform === "win32" ? ".ps1" : ".sh"}`,
+        );
+        expect(s.LaunchOptions).toBe(wrapperArguments(file));
+        const content = fs.readFileSync(file, "utf8");
+        expect(content).toContain(s.appname.replace(/'/g, ""));
+        expect(content).toContain("snes9x");
+        expect(content).toContain("before.sh");
+      }
+      expect(
+        fs.existsSync(path.join(userDataDir, "launch-wrappers", "srm-launch.ps1")),
+      ).toBe(true);
+    });
+
+    it("turning it off replaces the shortcuts and removes the files; so does removing", async () => {
+      await addAll([wrapped()]);
+      expect(wrapperFiles()).toHaveLength(2);
+      const { ok } = await addAll([wrapped(false)]);
+      expect(ok).toBe(true);
+      const mine = shortcuts().filter((s) => s.appname !== "My Manual Shortcut");
+      expect(mine.map((s) => s.exe)).toEqual(['"/emu/snes9x"', '"/emu/snes9x"']);
+      expect(wrapperFiles()).toEqual([]);
+
+      await addAll([wrapped()]);
+      expect(wrapperFiles()).toHaveLength(2);
+      const h = harness([wrapped()]);
+      await h.generate();
+      h.markAllForRemoval();
+      expect(
+        await h.service.saveData({ batchWrite: false, removeAll: false }),
+      ).toBe(true);
+      expect(wrapperFiles()).toEqual([]);
     });
   });
 

@@ -49,6 +49,7 @@ export function markdownFor(load: (file: string) => string) {
           ],
           sortAsFromVariable: [load("title-from-variable.md")],
           fuzzyMatch: [load("fuzzy-matching.md"), load("title-waterfall.md")],
+          scriptWrapper: [load("script-wrapper.md")],
           executableArgs: [
             load("executable-arguments.md"),
             load("what-is-app-id.md"),

@@ -60,6 +60,12 @@ export const lastDialogFolder: string = path.join(
   userDataDir,
   "lastDialogFolder.json",
 );
+// Launch wrappers: SRM's launch script and the scripts parsers use, a file
+// per wrapped game (in a folder per Steam user) and the log they write.
+export const launchWrappersDir: string = path.join(
+  userDataDir,
+  "launch-wrappers",
+);
 export const fuzzyList: string = path.join(userDataDir, "fuzzyList.json");
 export const fuzzyCache: string = path.join(userDataDir, "fuzzyCache.json");
 export const customVariables: string = path.join(

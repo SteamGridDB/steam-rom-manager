@@ -102,6 +102,8 @@ export function parserFieldOptions(args: string[]) {
       parts.push("A file");
     } else if (field.kind === "list") {
       parts.push("One or more values");
+    } else if (field.kind === "number") {
+      parts.push("A number (0 or more)");
     }
     if (mode === "create") {
       const shownDefault = defaultText(field, helpType);

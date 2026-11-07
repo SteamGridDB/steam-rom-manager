@@ -9,6 +9,7 @@ import {
 } from "../lib/image-providers/available-providers";
 import { artworkTypes, viewTypes } from "../lib/artwork-types";
 import { SteamList } from "./helpers.model";
+import { LaunchWrapper } from "./launch-wrapper.model";
 
 export type ImageDownloadStatus =
   | "notStarted"
@@ -124,6 +125,10 @@ export interface PreviewDataApp {
   sortAsTitle?: string;
   images: Record<ArtworkType, PreviewDataAppImage>;
   overlayImages: Record<ArtworkType, string>;
+  // Wrapped (lib/launch-wrapper): executableLocation is SRM's launch script's
+  // and argumentString the game's own launch options, which go in the file
+  // the shortcut runs.
+  launchWrapper?: LaunchWrapper;
 }
 
 export interface PreviewDataApps {
