@@ -59,6 +59,7 @@ function ngObjectsToArray<T>(importObject: T) {
     Components.NgPathInputComponent,
     Components.NgSelectComponent,
     Components.NgTextInputComponent,
+    Components.NgNumberInputComponent,
     Components.NgToggleButtonComponent,
     Components.ParsersComponent,
     Components.ParsersListComponent,

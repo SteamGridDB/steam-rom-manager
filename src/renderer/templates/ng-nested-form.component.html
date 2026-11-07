@@ -186,6 +186,16 @@
                   child.text || ""
                 }}</ng-toggle-button>
               </ng-container>
+              <ng-container *ngSwitchCase="'Number'">
+                <ng-number-input
+                  [formControlName]="childrenKey"
+                  [min]="child.min === undefined ? 0 : child.min"
+                  [max]="child.max ?? null"
+                  [step]="child.step ?? 'any'"
+                  [unit]="child.unit || ''"
+                  [placeholder]="child.placeholder || ''"
+                ></ng-number-input>
+              </ng-container>
               <ng-container *ngSwitchCase="'Group'">
                 <ng-nested-form
                   class="nested"
