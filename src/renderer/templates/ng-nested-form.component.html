@@ -143,6 +143,7 @@
                 </ng-container>
                 <ng-container *ngIf="!!child.path">
                   <ng-text-input
+                    #pathField
                     [formControlName]="childrenKey"
                     [placeholder]="child.placeholder || ''"
                     [highlight]="child.highlight"
@@ -162,9 +163,7 @@
                       class="clickButton"
                       [stateless]="true"
                       [directory]="child.path.directory"
-                      (pathChange)="
-                        currentForm.controls[childrenKey].setValue($event)
-                      "
+                      (pathChange)="pathField.setBrowsedPath($event)"
                       >{{ lang.browse }}</ng-path-input
                     >
                     <ng-container *ngFor="let button of child.buttons">

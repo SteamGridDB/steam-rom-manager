@@ -65,7 +65,7 @@ export class NgPathInputComponent implements ControlValueAccessor {
           result.filePaths &&
           result.filePaths.length == 1
         ) {
-          this.writeValue("_browse_&:&".concat(result.filePaths[0]));
+          this.writeValue(result.filePaths[0]);
         }
       });
   }
