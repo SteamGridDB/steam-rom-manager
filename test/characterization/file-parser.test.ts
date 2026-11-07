@@ -221,6 +221,33 @@ describe("FileParser (characterization)", () => {
     ]);
   });
 
+  it("title waterfall: a step that changed nothing has the previous step's title", async () => {
+    const config = makeConfig({
+      parserType: "Glob",
+      configTitle: "SNES waterfall",
+      parserId: "snes-waterfall",
+      romDirectory: path.join(roms, "snes"),
+      steamDirectory: steamDir,
+      executable: { path: path.join(root, "emu", "snes9x.exe") },
+      parserInputs: { glob: "${title}.sfc" },
+      titleFromVariable: { limitToGroups: ["snesTitles"] },
+      titleModifier: "${fuzzyTitle} | ${customVariableTitle} | ${title}",
+    });
+    // Super Mario World: a custom variable fuzzy matching finds nothing for;
+    // Chrono Trigger: no custom variable, fuzzy matched.
+    const parser = makeFileParser({
+      snesTitles: { "Super Mario World (USA)": "Qwxyzv" },
+    });
+    const result = await parser.executeFileParser([config], makeSettings());
+    const finals = _.sortBy(
+      result.parsedConfigs[0].files.map((f: any) => f.titles.postTitleModifier),
+    );
+    expect(finals).toEqual([
+      "Chrono Trigger | Chrono Trigger (USA) [!] | Chrono Trigger (USA) [!]",
+      "Qwxyzv | Qwxyzv | Super Mario World (USA)",
+    ]);
+  });
+
   it("custom variables, user exceptions and missing accounts", async () => {
     const config = makeConfig({
       parserType: "Glob",

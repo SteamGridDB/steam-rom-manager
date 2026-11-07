@@ -16,6 +16,8 @@ import {
   ParserType,
   initArtworkRecord,
   TitleModifiers,
+  TitleModifierKey,
+  TITLE_MODIFIER_KEYS,
 } from "../models";
 import { FuzzyMatcher } from "./fuzzy-matcher";
 import { VariableParser } from "./variable-parser";
@@ -1538,17 +1540,16 @@ export class FileParser {
         output = variableData.titles["extracted"];
         break;
       case "SHORTCUTTITLE":
-        output = variableData.titles["postShortcutPassthrough"];
+        output = titleAt(variableData.titles, "postShortcutPassthrough");
         break;
       case "CUSTOMVARIABLETITLE":
-        output = variableData.titles["postCustomVariables"];
+        output = titleAt(variableData.titles, "postCustomVariables");
         break;
       case "FUZZYTITLE":
-        output =
-          variableData.titles["postFuzzy"] || variableData.titles["extracted"];
+        output = titleAt(variableData.titles, "postFuzzy");
         break;
       case "FINALTITLE":
-        output = variableData.titles["postTitleModifier"];
+        output = titleAt(variableData.titles, "postTitleModifier");
         break;
       case "PARSERTITLE":
         output =
@@ -1618,4 +1619,15 @@ export class FileParser {
       localImagesDirectory: settings.environmentVariables.localImagesDirectory,
     };
   }
+}
+
+// A title at a step of the title waterfall. A step that didn't change the
+// title (no custom variable matched, fuzzy matching failed or is off...) has
+// the title of the step before it, even before later steps have run.
+function titleAt(titles: TitleModifiers, step: TitleModifierKey) {
+  for (let s = TITLE_MODIFIER_KEYS.indexOf(step); s >= 0; s--) {
+    const title = titles[TITLE_MODIFIER_KEYS[s]];
+    if (title != null) return title;
+  }
+  return null;
 }
