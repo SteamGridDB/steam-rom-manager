@@ -1171,5 +1171,25 @@
       "optionsLoading": "Options Loading...",
       "uncategorized": "Uncategorized"
     }
+  },
+  "heroicParser": {
+    "exeOverrideTitle": "Heroic Executable Path Override",
+    "exeOverridePlaceholder": {
+      "Windows_NT": "C:\\path\\to\\Heroic.exe",
+      "Darwin": "/path/to/Heroic.app/Contents/MacOS/Heroic",
+      "Linux": "/path/to/heroic"
+    },
+    "appDataOverrideTitle": "Heroic Config Directory Override",
+    "appDataOverridePlaceholder": {
+      "Windows_NT": "C:\\Users\\<user>\\AppData\\Roaming\\heroic",
+      "Darwin": "/Users/<user>/Library/Application Support/heroic",
+      "Linux": "/home/<user>/.config/heroic (Flatpak: ~/.var/app/com.heroicgameslauncher.hgl/config/heroic)"
+    },
+    "launcherModeInputTitle": "Launch games via Heroic (keeps per-game wine/proton settings)",
+    "errors": {
+      "fatalError__i": "> Heroic parser failed with fatal error:\n ${error}",
+      "heroicNotInstalled": "> Heroic config directory not found",
+      "heroicExeNotFound": "> Heroic executable not found on PATH. Set the Heroic Executable Path Override."
+    }
   }
 }

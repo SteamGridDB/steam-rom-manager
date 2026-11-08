@@ -185,7 +185,8 @@ export type ParserType =
   | "EA Desktop"
   | "Battle.net"
   | "GitHub Launcher"
-  | "Quiver Launcher";
+  | "Quiver Launcher"
+  | "Heroic";
 export type SuperType = "Manual" | "ArtworkOnly" | "ROM" | "Platform";
 
 export interface ParserInfo {
