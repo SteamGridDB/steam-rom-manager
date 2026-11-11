@@ -352,9 +352,19 @@ export class VDF_Manager {
                     app.images[artworkType],
                     onlineImages[artworkType],
                   );
+                  // An icon already in the grid folder, but not in the
+                  // format icons are saved in now (a PNG from before icons
+                  // were saved as .ico on Windows): saved again.
+                  const iconToResave =
+                    artworkType === "icon" &&
+                    currentImage?.imageProvider === imageProviderNames.steam &&
+                    !currentImage.imageUrl.endsWith(
+                      `.${steam.gridExtension(currentImage.imageUrl, artworkType)}`,
+                    );
                   if (
                     currentImage !== undefined &&
-                    currentImage.imageProvider !== imageProviderNames.steam
+                    (currentImage.imageProvider !== imageProviderNames.steam ||
+                      iconToResave)
                   ) {
                     listItem.screenshots.addItem({
                       appId: steam
@@ -365,7 +375,10 @@ export class VDF_Manager {
                       artworkType: artworkType,
                       sgdbId: currentImage.imageGameId,
                       drmProtect: app.drmProtect,
-                      overlayImage: app.overlayImages?.[artworkType],
+                      // (its overlay is in it already)
+                      overlayImage: iconToResave
+                        ? undefined
+                        : app.overlayImages?.[artworkType],
                       logoPosition: !artworkOnly,
                     });
                   } else if (
@@ -395,10 +408,10 @@ export class VDF_Manager {
                   if (artworkType === "icon") {
                     let icon_path: string = "";
                     if (currentImage !== undefined) {
-                      let icon_ext: string = currentImage.imageUrl
-                        .split(".")
-                        .slice(-1)[0];
-                      icon_ext = steam.map_ext["" + icon_ext] || icon_ext;
+                      const icon_ext = steam.gridExtension(
+                        currentImage.imageUrl,
+                        artworkType,
+                      );
                       icon_path = path.join(
                         listItem.screenshots.gridDir,
                         `${steam.shortenAppId(appId).concat("_icon")}.${icon_ext}`,

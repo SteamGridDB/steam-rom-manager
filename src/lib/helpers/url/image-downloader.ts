@@ -16,6 +16,7 @@ const { Jimp } = require("jimp");
 // });
 
 import { decodeFile } from "./encode-file";
+import { isIco, toIco } from "./ico";
 
 export class ImageDownloader {
   private dnsResolver;
@@ -67,6 +68,14 @@ export class ImageDownloader {
           buffer = await baseImage.getBuffer("image/png");
         } catch (e) {
           console.warn(`Overlay failed for image ${imageUrl}:\n ${e}`);
+        }
+      }
+      if (filePath.toLowerCase().endsWith(".ico") && !isIco(buffer)) {
+        try {
+          buffer = await toIco(buffer);
+        } catch (e) {
+          // (the image as it is: Steam's library still shows it)
+          console.warn(`Could not make an .ico of ${imageUrl}:\n ${e}`);
         }
       }
       await fs.outputFile(filePath, buffer);

@@ -34,6 +34,7 @@ export async function startImageServer() {
   const { port } = server.address() as AddressInfo;
   return {
     base: `http://127.0.0.1:${port}`,
+    png: PNG,
     requests,
     close: () => new Promise<void>((resolve) => server.close(() => resolve())),
   };

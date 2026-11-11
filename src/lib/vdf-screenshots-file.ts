@@ -282,11 +282,7 @@ export class VDF_ScreenshotsFile {
         }
         const dmcaCheck = data.url.endsWith("?"); // Nintendo Sucks
         if (!dmcaCheck) {
-          let ext: string = data.url
-            .split(".")
-            .slice(-1)[0]
-            .replace(/[^\w\s]*$/gi, "");
-          ext = ids.map_ext["" + ext] || ext;
+          const ext = ids.gridExtension(data.url, data.artworkType);
           const gridPath = path.join(this.gridDirectory, `${appId}.${ext}`);
           let secondaryPath: string;
           if (data.sgdbId && data.drmProtect) {

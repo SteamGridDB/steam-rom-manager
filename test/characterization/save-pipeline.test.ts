@@ -128,8 +128,16 @@ describe("save pipeline (characterization)", () => {
     });
   }
 
-  const state = () =>
-    normalize(readSteamUserState(steamDir, ACCOUNT), { ROOT: root });
+  // (Icons are saved as .ico on Windows, as they come elsewhere: the
+  // snapshots have the latter. "icons on Windows" tests the former.)
+  const state = () => {
+    const value = normalize(readSteamUserState(steamDir, ACCOUNT), {
+      ROOT: root,
+    });
+    return process.platform === "win32"
+      ? JSON.parse(JSON.stringify(value).replaceAll("_icon.ico", "_icon.png"))
+      : value;
+  };
   const errors = (log: { level: string; message: string }[]) =>
     log.filter((l) => l.level === "error").map((l) => l.message);
 
@@ -147,6 +155,57 @@ describe("save pipeline (characterization)", () => {
     expect(state()).toMatchSnapshot();
     expect(imageServer.requests.sort()).toMatchSnapshot("artwork requests");
     expect(steamControlCalls).toMatchSnapshot("steam control");
+  });
+
+  describe.runIf(process.platform === "win32")("icons on Windows", () => {
+    const config = () => path.join(steamDir, "userdata", ACCOUNT, "config");
+    const shortcutIcons = () =>
+      shortcutsParser
+        .parseBuffer(fs.readFileSync(path.join(config(), "shortcuts.vdf")))
+        .shortcuts.map((s: any) => s.icon)
+        .filter(Boolean);
+    const isIco = (file: string) =>
+      fs.readFileSync(file).readUInt32LE(0) === 0x00010000;
+
+    it("are saved as .ico, which desktop shortcuts can show", async () => {
+      const { ok, log } = await addAll([snesConfig()]);
+      expect(errors(log)).toEqual([]);
+      expect(ok).toBe(true);
+      const icons = shortcutIcons();
+      expect(icons.length).toBeGreaterThan(0);
+      for (const icon of icons) {
+        expect(icon).toMatch(/_icon\.ico$/);
+        expect(isIco(icon)).toBe(true);
+      }
+    });
+
+    it("a PNG icon saved before is saved again as .ico", async () => {
+      await addAll([snesConfig()]);
+      // as an older SRM left them: a PNG, named in shortcuts.vdf
+      const file = path.join(config(), "shortcuts.vdf");
+      const data = shortcutsParser.parseBuffer(fs.readFileSync(file));
+      const pngs: string[] = [];
+      for (const s of data.shortcuts) {
+        if (!s.icon) continue;
+        const png = s.icon.replace(/\.ico$/, ".png");
+        fs.renameSync(s.icon, png);
+        fs.writeFileSync(png, imageServer.png);
+        s.icon = png;
+        pngs.push(png);
+      }
+      fs.writeFileSync(file, shortcutsParser.writeBuffer(data));
+
+      const { ok, log } = await addAll([snesConfig()]);
+      expect(errors(log)).toEqual([]);
+      expect(ok).toBe(true);
+      expect(shortcutIcons()).toEqual(
+        pngs.map((png) => png.replace(/\.png$/, ".ico")),
+      );
+      for (const png of pngs) {
+        expect(fs.existsSync(png)).toBe(false);
+        expect(isIco(png.replace(/\.png$/, ".ico"))).toBe(true);
+      }
+    });
   });
 
   it("re-saving the same list changes nothing (no duplicates)", async () => {
@@ -380,7 +439,9 @@ describe("save pipeline (characterization)", () => {
       const { ok, log } = await addAll([wrapped()]);
       expect(errors(log)).toEqual([]);
       expect(ok).toBe(true);
-      const mine = shortcuts().filter((s) => s.appname !== "My Manual Shortcut");
+      const mine = shortcuts().filter(
+        (s) => s.appname !== "My Manual Shortcut",
+      );
       expect(mine).toHaveLength(2);
       expect(wrapperFiles()).toHaveLength(2);
       for (const s of mine) {
@@ -396,7 +457,9 @@ describe("save pipeline (characterization)", () => {
         expect(content).toContain("before.sh");
       }
       expect(
-        fs.existsSync(path.join(userDataDir, "launch-wrappers", "srm-launch.ps1")),
+        fs.existsSync(
+          path.join(userDataDir, "launch-wrappers", "srm-launch.ps1"),
+        ),
       ).toBe(true);
     });
 
@@ -405,8 +468,13 @@ describe("save pipeline (characterization)", () => {
       expect(wrapperFiles()).toHaveLength(2);
       const { ok } = await addAll([wrapped(false)]);
       expect(ok).toBe(true);
-      const mine = shortcuts().filter((s) => s.appname !== "My Manual Shortcut");
-      expect(mine.map((s) => s.exe)).toEqual(['"/emu/snes9x"', '"/emu/snes9x"']);
+      const mine = shortcuts().filter(
+        (s) => s.appname !== "My Manual Shortcut",
+      );
+      expect(mine.map((s) => s.exe)).toEqual([
+        '"/emu/snes9x"',
+        '"/emu/snes9x"',
+      ]);
       expect(wrapperFiles()).toEqual([]);
 
       await addAll([wrapped()]);
