@@ -52,7 +52,7 @@ Caso a entrada do diretório executável seja deixada **vazia**, `${exePath}`{.n
 |                    `${finalTitle}` | O título que foi o resultado final do modificador do título |
 |                                 `` |                                                             |
 
-No caso de correspondência difusa **falhar** ou está **desabilitado**, `${fuzzyTitle}`{.noWrap} é igual a `${title}`{.noWrap}.
+The title variables are the steps of the title waterfall, in order. A step that doesn't change the title has the title of the step before it: for example, if fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${customVariableTitle}`{.noWrap} (which is `${title}`{.noWrap} unless a custom variable or shortcut passthrough changed it).
 
 ## Custom variables
 
