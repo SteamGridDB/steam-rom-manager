@@ -17,6 +17,67 @@ const { Jimp } = require("jimp");
 
 import { decodeFile } from "./encode-file";
 
+const PNG_SIGNATURE = Buffer.from([
+  0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
+]);
+
+// Reserved uint16 0, type uint16 1 (ICO, not CUR).
+function isIcoContainer(buffer: Buffer): boolean {
+  return (
+    buffer.length >= 6 &&
+    buffer.readUInt16LE(0) === 0 &&
+    buffer.readUInt16LE(2) === 1
+  );
+}
+
+// Largest PNG embedded in an ICO. Width and height bytes of 0 mean 256.
+// Area (width * height) wins, and a tie goes to the larger payload.
+// Returns null when the buffer is not an ICO, the container is short or
+// inconsistent, or no entry is a PNG. Callers keep the original bytes.
+// Does not throw.
+export function extractLargestIcoPng(buffer: Buffer): Buffer | null {
+  if (!isIcoContainer(buffer)) {
+    return null;
+  }
+  const count = buffer.readUInt16LE(4);
+  const directoryEnd = 6 + count * 16;
+  if (directoryEnd > buffer.length) {
+    return null;
+  }
+
+  let best: Buffer | null = null;
+  let bestArea = -1;
+  let bestSize = -1;
+  for (let i = 0; i < count; i++) {
+    const entry = 6 + i * 16;
+    const widthByte = buffer.readUInt8(entry);
+    const heightByte = buffer.readUInt8(entry + 1);
+    const width = widthByte === 0 ? 256 : widthByte;
+    const height = heightByte === 0 ? 256 : heightByte;
+    const size = buffer.readUInt32LE(entry + 8);
+    const offset = buffer.readUInt32LE(entry + 12);
+    // Every image range has to sit inside the file. One bad entry makes the
+    // container inconsistent: don't keep a PNG from a corrupt directory.
+    if (offset > buffer.length || size > buffer.length - offset) {
+      return null;
+    }
+    const payload = buffer.subarray(offset, offset + size);
+    if (
+      payload.length < PNG_SIGNATURE.length ||
+      !payload.subarray(0, PNG_SIGNATURE.length).equals(PNG_SIGNATURE)
+    ) {
+      continue;
+    }
+    const area = width * height;
+    if (area > bestArea || (area === bestArea && size > bestSize)) {
+      best = Buffer.from(payload);
+      bestArea = area;
+      bestSize = size;
+    }
+  }
+  return best;
+}
+
 export class ImageDownloader {
   private dnsResolver;
   private dnsCache: { [host: string]: string };
@@ -44,6 +105,18 @@ export class ImageDownloader {
     overlayPath?: string,
   ): Promise<void> {
     const writeBuffer = async (buffer: Buffer) => {
+      // Linux grid names end in .png (map_ext) while the download is still an
+      // ICO. Swap in the largest embedded PNG before the overlay reads it.
+      if (filePath.endsWith(".png") && isIcoContainer(buffer)) {
+        const png = extractLargestIcoPng(buffer);
+        if (png) {
+          buffer = png;
+        } else {
+          console.warn(
+            `ICO extract failed for image ${imageUrl}:\n no embedded PNG`,
+          );
+        }
+      }
       // until we can figure out how to include custom jimp plugins
       // animated images can't be overlaid
       if (overlayPath) {

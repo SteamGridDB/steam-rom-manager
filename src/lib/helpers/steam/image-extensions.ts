@@ -8,8 +8,9 @@ map_ext["png"] = "png";
 map_ext["PNG"] = "png";
 map_ext["tga"] = "tga";
 map_ext["tga"] = "tga";
-map_ext["ico"] = "ico";
-map_ext["ICO"] = "ico";
+// Steam on Linux ignores shortcut icons stored as ICO; save a PNG instead.
+map_ext["ico"] = process.platform === "linux" ? "png" : "ico";
+map_ext["ICO"] = process.platform === "linux" ? "png" : "ico";
 // apparently there is a good reason for this:
 map_ext["webp"] = "png";
 map_ext["WEBP"] = "png";
