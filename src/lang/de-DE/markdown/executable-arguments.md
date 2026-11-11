@@ -168,10 +168,12 @@ Falls die ausführbare Verzeichniseingabe **leer** gelassen wurde, ist `${exePat
 | Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                   |
 | -----------------------------------------------------:|:----------------------------------------------------- |
 |                                            `${title}` | Extrahierter Titel                                    |
-|                                       `${fuzzyTitle}` | Fuzzy Matched Titel                                   |
+|                                    `${shortcutTitle}` | Title after shortcut passthrough                      |
+|                              `${customVariableTitle}` | Title after custom variable application               |
+|                                       `${fuzzyTitle}` | Title after fuzzy matching                            |
 |                                       `${finalTitle}` | Titel, der das Endergebnis des Titel-Modifikators war |
 
-Falls Fuzzy Matching **fehlschlägt** oder **deaktiviert** ist, ist `${fuzzyTitle}`{.noWrap} gleich `${title}`{.noWrap}.
+The title variables are the steps of the title waterfall, in order. A step that doesn't change the title has the title of the step before it: for example, if fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${customVariableTitle}`{.noWrap} (which is `${title}`{.noWrap} unless a custom variable or shortcut passthrough changed it).
 
 ## Funktions-Variablen
 
