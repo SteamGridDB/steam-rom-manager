@@ -168,10 +168,12 @@ Als uitvoerbare map-invoer **leeg** wordt gelaten, is `${exePath}`{.noWrap} geli
 | Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                               |
 | ------------------------------------:|:---------------------------------------------------- |
 |                           `${title}` | Uitgepakte titel                                     |
-|                      `${fuzzyTitle}` | Fuzzy overeenkomende titel                           |
+|                   `${shortcutTitle}` | Title after shortcut passthrough                     |
+|             `${customVariableTitle}` | Title after custom variable application              |
+|                      `${fuzzyTitle}` | Title after fuzzy matching                           |
 |                      `${finalTitle}` | Titel die het eindresultaat is van de title modifier |
 
-Als fuzzy matching **mislukt** of **uitgeschakeld** is, is `${fuzzyTitle}`{.noWrap} gelijk aan `${title}`{.noWrap}.
+The title variables are the steps of the title waterfall, in order. A step that doesn't change the title has the title of the step before it: for example, if fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${customVariableTitle}`{.noWrap} (which is `${title}`{.noWrap} unless a custom variable or shortcut passthrough changed it).
 
 ## Functie variabele
 
