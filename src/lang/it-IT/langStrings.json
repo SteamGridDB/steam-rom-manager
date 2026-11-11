@@ -242,6 +242,7 @@
       "Linux": "/path/to/your/manifests/"
     },
     "launcherModeInputTitle": "Avviare giochi tramite Epic per i servizi online",
+    "waitForExitInputTitle": "Wait for the game to exit before ending the shortcut",
     "errors": {
       "invalidManifestsOverride": "> Manifests Override non è una cartella valida.",
       "epicNotCompatible": "> Epic Games Store non disponibile su Linux.\n Se si sta utilizzando Legendary su Linux è necessario impostare Manifests Override.",
@@ -529,7 +530,6 @@
         "nukeArtworkChoices_desc": "artwork choice cache",
         "nukeArtworkBackups_desc": "local artwork backups",
         "forceDownload_btn": "Force download",
-        "shellScripts_desc": "shell scripts",
         "browse_btn": "Browse",
         "choose_btn": "Choose",
         "closeDocs": "Close Docs",
@@ -884,6 +884,7 @@
         "filePath__i": "[${index}/${total}]:            Percorso del file - ${filePath}",
         "startDir__i": "[${index}/${total}]:            Cartella di partenza - ${startDir}",
         "completeShortcut__i": "[${index}/${total}]:    Collegamento completo - ${shortcut}",
+        "wrappedGame__i": "[${index}/${total}]:   Wrapped game (run by SRM's launch script) - ${command}",
         "firstImageQuery__i": "[${index}/${total}]:      Artwork queries - ${query}",
         "imagePool__i": "[${index}/${total}]:         Artwork pool - ${imagePool}",
         "imageQueries__i": "[${index}/${total}]:                        ${query}",
@@ -925,7 +926,14 @@
         "steamInputEnabled": "Enable Steam Input",
         "controllerTemplate__i": "${controller} Template",
         "compatToolName": "Force compatibility tool",
-        "compatToolNameCustom": "Custom compatibility tool name"
+        "compatToolNameCustom": "Custom compatibility tool name",
+        "scriptWrapperEnabled": "Wrap shortcut in a shell script",
+        "preLaunchScript": "Pre-launch script",
+        "preLaunchDelay": "Seconds to wait after the pre-launch script",
+        "postLaunchScript": "Post-launch script",
+        "postLaunchDelay": "Seconds to wait before the post-launch script",
+        "postExitScript": "Post-exit script",
+        "postExitDelay": "Seconds to wait before the post-exit script"
       },
       "placeholder": {
         "parserType": "Seleziona parser...",
@@ -981,7 +989,12 @@
         "steamInputEnabled": "Use default settings",
         "controllerTemplate": "Select a Template",
         "compatToolName": "Don't force a tool",
-        "compatToolNameCustom": "e.g. GE-Proton9-20"
+        "compatToolNameCustom": "e.g. GE-Proton9-20",
+        "launchScript": {
+          "Windows_NT": "C:\\path\\to\\script.ps1 (optional)",
+          "Darwin": "/path/to/script.sh (optional)",
+          "Linux": "/path/to/script.sh (optional)"
+        }
       },
       "text": {
         "skipFileIfVariableWasNotFound": "Salta il file se la variabile non è stata trovata",
@@ -1009,6 +1022,7 @@
         "titleModification": "Title Modification Configuration",
         "controllerTemplates": "Controller Templates Configuration",
         "steamPlayCompat": "Steam Play Compatibility",
+        "scriptWrapper": "Script Wrapper Configuration",
         "artworkProvider": "Artwork Provider Configuration",
         "filtersFor__i": "Filters for ${provider}",
         "overlayArtwork": "Overlay Artwork Configuration",
