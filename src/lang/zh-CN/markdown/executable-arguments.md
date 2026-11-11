@@ -1,6 +1,6 @@
 #
 
-附加到可执行文件以生成最终快捷方式的参数。 大多数情况下，您将希望使用提供的解析器变量进行设置。
+附加到可执行文件以生成最终快捷方式的参数。大多数情况下，您将希望使用提供的解析器变量进行设置。
 
 ## 系统示例
 
@@ -134,7 +134,7 @@
 | `${startInDir}` | "Start In" 目录 |
 |    `${fileDir}` | 解析器或目录返回的文件   |
 
-如果可执行目录输入留空，则 **empty**，`${exeDir}`{.noWrap} 等于 `${fileDir}`{.noWrap}。 此外，如果 “StartIn” 目录为 **空**，则 `${startInDir}`{.noWrap} 等于 `${exeDir}`{.noWrap}。
+如果可执行目录输入留空，则 **empty**，`${exeDir}`{.noWrap} 等于 `${fileDir}`{.noWrap}。此外，如果 “StartIn” 目录为 **空**，则 `${startInDir}`{.noWrap} 等于 `${exeDir}`{.noWrap}。
 
 ## 名称变量
 
@@ -165,28 +165,30 @@
 
 ## 解析器变量
 
-|     变量 (大小写不敏感) | 对应的值          |
-| ---------------:|:------------- |
-|      `${title}` | 提取的标题         |
-| `${fuzzyTitle}` | 模糊匹配的标题       |
-| `${finalTitle}` | 标题是标题修改器的最终结果 |
+|              变量 (大小写不敏感) | 对应的值                                    |
+| ------------------------:|:--------------------------------------- |
+|               `${title}` | 提取的标题                                   |
+|       `${shortcutTitle}` | Title after shortcut passthrough        |
+| `${customVariableTitle}` | Title after custom variable application |
+|          `${fuzzyTitle}` | Title after fuzzy matching              |
+|          `${finalTitle}` | 标题是标题修改器的最终结果                           |
 
-如果模糊匹配**失败**或被**禁用**，则 `${fuzzyTitle}`{.noWrap} 等于 `${title}`{.noWrap}。
+The title variables are the steps of the title waterfall, in order. A step that doesn't change the title has the title of the step before it: for example, if fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${customVariableTitle}`{.noWrap} (which is `${title}`{.noWrap} unless a custom variable or shortcut passthrough changed it).
 
 ## 函数变量
 
-|                                  变量 (大小写不敏感) | 对应的函数                                               |
-| --------------------------------------------:|:--------------------------------------------------- |
-|                  `${regex\|input\|替换(可选)}` | 在输入上执行正则表达式。 支持 `u`、`g` 和 `i` 标志（捕获的组将被连接，除非提供了替换）。 |
-|                              `${uc\|input}` | 大写变量。 将输入转换为大写                                      |
-|                              `${lc\|input}` | 小写变量。 将输入转换为小写                                      |
-|                        `${cv:group\|input}` | 使用匹配的自定义变量更改输入（组是可选的）                               |
-|                             `${rdc\|input}` | 用拉丁字母替换带音符的输入字符                                     |
-| `${os:[win\|mac\|linux]\|处于匹配\|无匹配(可选)}` | 如果操作系统匹配，则使用`匹配`值，否则使用`不匹配`。                        |
+|                                  变量 (大小写不敏感) | 对应的函数                                              |
+| --------------------------------------------:|:-------------------------------------------------- |
+|                  `${regex\|input\|替换(可选)}` | 在输入上执行正则表达式。支持 `u`、`g` 和 `i` 标志（捕获的组将被连接，除非提供了替换）。 |
+|                              `${uc\|input}` | 大写变量。将输入转换为大写                                      |
+|                              `${lc\|input}` | 小写变量。将输入转换为小写                                      |
+|                        `${cv:group\|input}` | 使用匹配的自定义变量更改输入（组是可选的）                              |
+|                             `${rdc\|input}` | 用拉丁字母替换带音符的输入字符                                    |
+| `${os:[win\|mac\|linux]\|处于匹配\|无匹配(可选)}` | 如果操作系统匹配，则使用`匹配`值，否则使用`不匹配`。                       |
 
 ### 函数变量示例
 
-Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables: Then these variables: 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量：
+Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables: Then these variables: 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量：然后这些变量：
 
 ```
 ${/.*/|${title}}                           //匹配所有内容
