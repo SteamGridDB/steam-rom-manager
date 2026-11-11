@@ -52,7 +52,7 @@ Dans le cas où l'entrée chemin complet vers un exécutable est laissée **vide
 |                  `${finalTitle}` | Title which was the end result of title modifier |
 |                 `${parserTitle}` | The value of the `Parser Title` field            |
 
-In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
+The title variables are the steps of the title waterfall, in order. A step that doesn't change the title has the title of the step before it: for example, if fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${customVariableTitle}`{.noWrap} (which is `${title}`{.noWrap} unless a custom variable or shortcut passthrough changed it).
 
 ## Function variables
 
