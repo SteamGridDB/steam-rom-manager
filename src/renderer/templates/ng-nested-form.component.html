@@ -143,6 +143,7 @@
                 </ng-container>
                 <ng-container *ngIf="!!child.path">
                   <ng-text-input
+                    #pathField
                     [formControlName]="childrenKey"
                     [placeholder]="child.placeholder || ''"
                     [highlight]="child.highlight"
@@ -162,9 +163,7 @@
                       class="clickButton"
                       [stateless]="true"
                       [directory]="child.path.directory"
-                      (pathChange)="
-                        currentForm.controls[childrenKey].setValue($event)
-                      "
+                      (pathChange)="pathField.setBrowsedPath($event)"
                       >{{ lang.browse }}</ng-path-input
                     >
                     <ng-container *ngFor="let button of child.buttons">
@@ -186,6 +185,16 @@
                 <ng-toggle-button [formControlName]="childrenKey">{{
                   child.text || ""
                 }}</ng-toggle-button>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Number'">
+                <ng-number-input
+                  [formControlName]="childrenKey"
+                  [min]="child.min === undefined ? 0 : child.min"
+                  [max]="child.max ?? null"
+                  [step]="child.step ?? 'any'"
+                  [unit]="child.unit || ''"
+                  [placeholder]="child.placeholder || ''"
+                ></ng-number-input>
               </ng-container>
               <ng-container *ngSwitchCase="'Group'">
                 <ng-nested-form

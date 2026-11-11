@@ -208,6 +208,41 @@ export namespace NestedFormElement {
       Object.assign(this, init);
     }
   }
+  // A number (ng-number-input).
+  export class NumberInput {
+    static displayName = "Number";
+    /** Optional */
+    label?: string;
+    /** Optional */
+    initialValue?: number;
+    /** Optional (default 0; null for none) */
+    min?: number | null;
+    /** Optional */
+    max?: number | null;
+    /** Optional (default: any) */
+    step?: number | "any";
+    /** Optional: shown after the number, e.g. "s" */
+    unit?: string;
+    /** Optional */
+    placeholder?: string;
+    /** Optional */
+    disabled?: boolean;
+    /** Optional */
+    isHidden?: NestedInputHidden;
+    __hidden: NestedInputHiddenValue;
+    /** Optional */
+    onValidate?: NestedInputValidator;
+    /** Optional */
+    onValidateObservable?: NestedInputValidatorObservable;
+    /** Optional */
+    onChange?: NestedInputChange;
+    /** Optional */
+    onInfoClick?: NestedInputInfoClick;
+
+    constructor(init?: ObjectFields<NumberInput>) {
+      Object.assign(this, init);
+    }
+  }
   export class Group {
     static displayName = "Group";
     /** Optional */
@@ -261,6 +296,7 @@ export type NestedFormInputs =
   | NestedFormElement.Select
   | NestedFormElement.ComboBox
   | NestedFormElement.Toggle
+  | NestedFormElement.NumberInput
   | NestedFormElement.Bubble;
 export type NestedFormElements =
   | NestedFormInputs

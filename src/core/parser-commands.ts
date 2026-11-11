@@ -130,6 +130,17 @@ function convert(field: ParserField, raw: RawValue, ctx: Context): Result<any> {
         return { ok: true, value: false };
       return fail(`${flag} is a switch: use ${flag} or --no-${field.flag}`);
     }
+    case "number": {
+      if (Array.isArray(raw)) {
+        if (raw.length !== 1) return fail(`${flag} takes one number`);
+        raw = raw[0];
+      }
+      const n = typeof raw === "number" ? raw : Number(String(raw).trim());
+      if (String(raw).trim() === "" || !Number.isFinite(n) || n < 0) {
+        return fail(`${flag} must be a number of 0 or more (got ${show(raw)})`);
+      }
+      return { ok: true, value: n };
+    }
     case "list":
       return {
         ok: true,

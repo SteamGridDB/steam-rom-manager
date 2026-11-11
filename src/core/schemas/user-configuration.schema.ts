@@ -245,6 +245,26 @@ const sharedProperties = {
     steamInputEnabled: { type: "string", default: "1", enum: ["0", "1", "2"] },
     compatToolName: { type: "string", default: "" },
     compatToolNameCustom: { type: "string", default: "" },
+    scriptWrapper: {
+      type: "object",
+      default: {},
+      properties: {
+        enabled: { type: "boolean", default: false },
+        ...Object.fromEntries(
+          ["preLaunch", "postLaunch", "postExit"].map((stage) => [
+            stage,
+            {
+              type: "object",
+              default: {},
+              properties: {
+                script: { type: "string", default: "" },
+                delay: { type: "number", minimum: 0, default: 0 },
+              },
+            },
+          ]),
+        ),
+      },
+    },
     controllers: {
       type: "object",
       default: {},

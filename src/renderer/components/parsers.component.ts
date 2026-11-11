@@ -625,6 +625,53 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           label: this.lang.label.compatToolNameCustom,
           placeholder: this.lang.placeholder.compatToolNameCustom,
         }),
+        scriptWrapperSection: new NestedFormElement.Section({
+          label: this.lang.section.scriptWrapper,
+          isHidden: () => this.hiddenUnlessApplies("scriptWrapper.enabled"),
+          startMinimized: true,
+        }),
+        scriptWrapper: new NestedFormElement.Group({
+          isHidden: () => this.hiddenUnlessApplies("scriptWrapper.enabled"),
+          children: {
+            enabled: new NestedFormElement.Toggle({
+              text: this.lang.label.scriptWrapperEnabled,
+              onInfoClick: (self, path) => {
+                this.currentDoc.activePath = path.join();
+                this.currentDoc.content =
+                  this.lang.docs__md.scriptWrapper.join("");
+              },
+            }),
+            ...Object.fromEntries(
+              (["preLaunch", "postLaunch", "postExit"] as const).map(
+                (stage) => [
+                  stage,
+                  new NestedFormElement.Group({
+                    isHidden: () =>
+                      this.hiddenUnlessApplies(`scriptWrapper.${stage}.script`),
+                    children: {
+                      script: new NestedFormElement.Input({
+                        path: { directory: false },
+                        label: this.lang.label[`${stage}Script`],
+                        placeholder:
+                          this.lang.placeholder.launchScript[APP.osType],
+                        onInfoClick: (self, path) => {
+                          this.currentDoc.activePath = path.join();
+                          this.currentDoc.content =
+                            this.lang.docs__md.scriptWrapper.join("");
+                        },
+                      }),
+                      delay: new NestedFormElement.NumberInput({
+                        label: this.lang.label[`${stage}Delay`],
+                        min: 0,
+                        unit: "s",
+                      }),
+                    },
+                  }),
+                ],
+              ),
+            ),
+          },
+        }),
         onlineImageSection: new NestedFormElement.Section({
           label: this.lang.section.artworkProvider,
           startMinimized: true,
@@ -1265,10 +1312,24 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 this.lang.success.completeShortcut__i.interpolate({
                   index: i + 1,
                   total: totalLength,
-                  shortcut:
-                    `${data.files[i].modifiedExecutableLocation} ${data.files[i].argumentString}`.trim(),
+                  // (wrapped: SRM's launch script, which runs the game)
+                  shortcut: data.files[i].launchWrapper
+                    ? data.files[i].modifiedExecutableLocation
+                    : `${data.files[i].modifiedExecutableLocation} ${data.files[i].argumentString}`.trim(),
                 }),
               );
+              if (data.files[i].launchWrapper) {
+                const wrapper = data.files[i].launchWrapper;
+                success(
+                  this.lang.success.wrappedGame__i.interpolate({
+                    index: i + 1,
+                    total: totalLength,
+                    command: wrapper.launch
+                      ? `${wrapper.launch.file} ${wrapper.launch.arguments ?? ""}`.trim()
+                      : `${wrapper.target} ${data.files[i].argumentString}`.trim(),
+                  }),
+                );
+              }
               if (data.files[i].steamCategories.length > 0) {
                 success(
                   this.lang.success.steamCategories__i.interpolate({

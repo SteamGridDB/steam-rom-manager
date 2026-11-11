@@ -32,6 +32,7 @@ export type FieldKind =
   | "path" // a file
   | "dir" // a directory
   | "toggle"
+  | "number" // seconds, counts...
   | "select" // one of `values`
   | "multiselect" // any of `values`
   | "list"; // free-form strings
@@ -82,6 +83,9 @@ export const appliesWhen = {
     superType(config) === parserInfo.ROMType,
   notArtworkOnly: (config: Partial<UserConfiguration>) =>
     !!superType(config) && superType(config) !== parserInfo.ArtworkOnlyType,
+  // Script wrapper scripts: once the shortcut is wrapped.
+  scriptWrapper: (config: Partial<UserConfiguration>) =>
+    appliesWhen.notArtworkOnly(config) && !!config.scriptWrapper?.enabled,
   // Steam Play compatibility tools only exist on Linux.
   compat: (config: Partial<UserConfiguration>) =>
     appliesWhen.notArtworkOnly(config) && APP.osType === "Linux",
@@ -363,6 +367,36 @@ export function commonFields(): ParserField[] {
     ),
 
     field(
+      "scriptWrapper.enabled",
+      "script-wrapper",
+      "toggle",
+      l.label.scriptWrapperEnabled,
+      s.scriptWrapper,
+      { appliesTo: appliesWhen.notArtworkOnly },
+    ),
+    ...(["preLaunch", "postLaunch", "postExit"] as const).flatMap((stage) => {
+      const flag = kebab(stage);
+      return [
+        field(
+          `scriptWrapper.${stage}.script`,
+          `${flag}-script`,
+          "path",
+          l.label[`${stage}Script`],
+          s.scriptWrapper,
+          { appliesTo: appliesWhen.scriptWrapper },
+        ),
+        field(
+          `scriptWrapper.${stage}.delay`,
+          `${flag}-delay`,
+          "number",
+          l.label[`${stage}Delay`],
+          s.scriptWrapper,
+          { appliesTo: appliesWhen.scriptWrapper },
+        ),
+      ];
+    }),
+
+    field(
       "imageProviders",
       "image-providers",
       "multiselect",
@@ -543,6 +577,8 @@ export function emptyValue(kind: FieldKind): any {
   switch (kind) {
     case "toggle":
       return false;
+    case "number":
+      return 0;
     case "multiselect":
     case "list":
       return [];

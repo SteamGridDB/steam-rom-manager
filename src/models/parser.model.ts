@@ -2,6 +2,7 @@ import { userAccountData, StringLiteralArray } from "./helpers.model";
 import { Controllers } from "./controllers.model";
 import { ImageProviderAPI } from "./user-configuration.model";
 import { OnlineProviderType, ArtworkType, SelectItem } from ".";
+import { LaunchWrapper, ParserLaunchWrapper } from "./launch-wrapper.model";
 
 export interface StringMap {
   [key: string]: any;
@@ -50,6 +51,11 @@ export interface ParsedUserConfigurationFile {
   localImages: Record<ArtworkType, string[]>;
   resolvedDefaultImages: Record<ArtworkType, string[]>;
   resolvedLocalImages: Record<ArtworkType, string[]>;
+  // The parser's own scripts for this game (folded into launchWrapper).
+  parserLaunchWrapper?: ParserLaunchWrapper;
+  // Set when the shortcut runs SRM's launch script: modifiedExecutableLocation
+  // is then the script's, and the game's own executable is the target.
+  launchWrapper?: LaunchWrapper;
 }
 
 export interface ParsedUserConfiguration {
@@ -107,6 +113,8 @@ export interface ParsedSuccess {
   fileLaunchOptions?: string; // Used by platform parsers executable mode
   startInDirectory?: string; //Used by manual parsers and parsers whose apps start in a different directory than the executable,
   appendArgsToExecutable?: boolean; //Used by manual parsers
+  // Scripts the parser runs around the launch (see lib/launch-wrapper).
+  launchWrapper?: ParserLaunchWrapper;
 }
 
 export interface ParsedData {

@@ -19,3 +19,4 @@ export * from "./user-exceptions.model";
 export * from "./config-presets.model";
 export * from "./error.model";
 export * from "./uwp.model";
+export * from "./launch-wrapper.model";

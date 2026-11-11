@@ -1,4 +1,10 @@
-import { ParserInfo, GenericParser, ParsedData } from "../../models";
+import {
+  ParserInfo,
+  GenericParser,
+  ParsedData,
+  ParserLaunchWrapper,
+} from "../../models";
+import { parserScript } from "../launch-wrapper";
 import { APP } from "../../variables";
 import * as _ from "lodash";
 import * as fs from "fs-extra";
@@ -24,6 +30,12 @@ export class EpicParser implements GenericParser {
         epicLauncherMode: {
           label: this.lang.launcherModeInputTitle,
           inputType: "toggle",
+          info: this.lang.docs__md.input.join(""),
+        },
+        epicWaitForExit: {
+          label: this.lang.waitForExitInputTitle,
+          inputType: "toggle",
+          hidden: os.type() != "Windows_NT",
           info: this.lang.docs__md.input.join(""),
         },
       },
@@ -56,6 +68,10 @@ export class EpicParser implements GenericParser {
       if (!fs.existsSync(epicManifestsDir)) {
         return reject(this.lang.errors.epicNotInstalled);
       }
+      const waitForExit =
+        !!inputs.epicLauncherMode &&
+        !!inputs.epicWaitForExit &&
+        os.type() == "Windows_NT";
       try {
         let parsedData: ParsedData = {
           executableLocation: `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`,
@@ -84,6 +100,9 @@ export class EpicParser implements GenericParser {
                 launchOptions: `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \\"com.epicgames.launcher://apps/${item.AppName}?action=launch&silent=true\\""`,
                 filePath: launchPath,
                 fileLaunchOptions: item.LaunchCommand,
+                ...(waitForExit && {
+                  launchWrapper: waitForExitWrapper(item),
+                }),
               });
             }
           }
@@ -94,4 +113,26 @@ export class EpicParser implements GenericParser {
       }
     });
   }
+}
+
+// "Wait for the game to exit" (Windows, launching via Epic): SRM's launch
+// script restarts Epic (so Epic and the game are in the process tree Steam
+// tracks), has it launch the game, and waits for the game (any process in
+// its install folder) to exit; then Epic syncs cloud saves and is closed.
+// From https://github.com/SteamGridDB/steam-rom-manager/pull/904 (hbogaeus).
+function waitForExitWrapper(item: any): ParserLaunchWrapper {
+  const cloudSync = parserScript("epic-cloud-sync.ps1");
+  const stopEpic = { script: parserScript("epic-stop.ps1") };
+  return {
+    launch: {
+      file: `com.epicgames.launcher://apps/${item.AppName}?action=launch&silent=true`,
+    },
+    game: {
+      folder: path.win32.normalize(item.InstallLocation),
+      exeName: path.win32.basename(item.LaunchExecutable),
+    },
+    preLaunch: [stopEpic],
+    postLaunch: [{ script: cloudSync, args: ["-appName", item.AppName, "-Mark"] }],
+    postExit: [{ script: cloudSync, args: ["-appName", item.AppName] }, stopEpic],
+  };
 }

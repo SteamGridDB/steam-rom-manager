@@ -1,10 +1,14 @@
-import { ParserInfo, GenericParser, ParsedData } from "../../models";
+import {
+  ParserInfo,
+  GenericParser,
+  ParsedData,
+  LaunchScript,
+} from "../../models";
 import { APP } from "../../variables";
 import * as os from "os";
 import { BlizzardParser } from "blizzard-product-parser";
-import * as fs from "fs-extra";
 import * as path from "path";
-import * as paths from "../../paths";
+import { parserScript } from "../launch-wrapper";
 
 // shamelessly borrowed from steamgriddb-manager
 const BNET_GAMES: {
@@ -130,14 +134,18 @@ export class BattleNetParser implements GenericParser {
           inputs.battleExeOverride ||
           "C:\\Program Files (x86)\\Battle.net\\Battle.net.exe";
         const bNetDir = path.dirname(bNetExe);
-        const scriptPath = path.join(paths.userDataDir, "scripts", "bnet.ps1");
-        if (!fs.existsSync(scriptPath)) {
-          reject("bnet.ps1 script is missing");
-        }
+        // Battle.net launches a game only once it has started completely:
+        // SRM's launch script restarts it and waits (battle-net-start.ps1),
+        // then hands it the game and waits for the game, found by its
+        // install folder, to exit.
+        const startBattleNet: LaunchScript = {
+          script: parserScript("battle-net-start.ps1"),
+          args: ["-bnet", bNetExe],
+        };
         let finalData: ParsedData = {
           success: [],
           failed: [],
-          executableLocation: `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`,
+          executableLocation: bNetExe,
         };
         const decoder = new BlizzardParser(dbPath);
         decoder.decode();
@@ -150,10 +158,18 @@ export class BattleNetParser implements GenericParser {
           const productCode: string = product.productCode.toLowerCase();
           if (BNET_GAMES[productCode]) {
             const { launchId, name } = BNET_GAMES[productCode];
+            const installPath: string | undefined =
+              product.settings?.installPath;
             finalData.success.push({
               extractedTitle: name,
               startInDirectory: bNetDir,
-              launchOptions: `-ExecutionPolicy Bypass -File "${scriptPath}" -bnet "${bNetExe}" -launchid "${launchId}"`,
+              launchOptions: `--exec="launch ${launchId}"`,
+              launchWrapper: {
+                preLaunch: [startBattleNet],
+                ...(installPath && {
+                  game: { folder: path.win32.normalize(installPath) },
+                }),
+              },
             });
           }
         }

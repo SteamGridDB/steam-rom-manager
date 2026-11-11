@@ -76,7 +76,6 @@ export function hostCore(
     fuzzy: core.fuzzy,
     builder: core.builder,
     library: core.library,
-    shellScripts: core.shellScripts,
     support: core.support,
     writer: {
       save: (previewData: any, onlineImages: any, options: any) =>
@@ -167,9 +166,6 @@ export function hostCore(
     .observeList()
     .subscribe((list) => emit("fuzzy:list", { totalGames: list.totalGames }));
   core.providers.stopEvent.subscribe(() => emit("providers:stopped", null));
-  core.shellScripts.onDownloadingChange((d) =>
-    emit("shellScripts:downloading", d),
-  );
 
   for (const [name, promise] of Object.entries(core.ready ?? {})) {
     promise.then(() => {

@@ -20,6 +20,7 @@ import * as appImage from "./helpers/app-image";
 import * as steam from "./helpers/steam";
 import * as _ from "lodash";
 import * as path from "path";
+import { wrapperArguments, wrapperFile } from "./launch-wrapper";
 import { merge, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { ArtworkCache } from ".";
@@ -326,6 +327,9 @@ export class VDF_Manager {
             );
             listItem.shortcuts.extraneous =
               extraneousAppIds[steamDirectory][userId];
+            for (const appId of stale) {
+              if (addedApps[appId].artworkOnly) forgetIcon(listItem, appId);
+            }
 
             for (let appId in apps) {
               let app = apps[appId];
@@ -408,12 +412,19 @@ export class VDF_Manager {
                         (item.appname = app.title);
                       item.exe = app.executableLocation;
                       item.StartDir = app.startInDirectory;
-                      item.LaunchOptions = app.argumentString;
+                      item.LaunchOptions = launchOptions(app, userId, appId);
                       item.icon = icon_path;
                       item.tags = _.union(app.steamCategories, item.tags);
                       if (app.sortAsTitle) {
                         item.sortas = app.sortAsTitle;
                       }
+                    } else if (artworkOnly && icon_path) {
+                      // A shortcut SRM didn't add (Non-SRM Shortcuts): Steam
+                      // shows the icon named in shortcuts.vdf, not the grid's.
+                      const shortcut = listItem.shortcuts.getItemByShortAppId(
+                        steam.shortenAppId(appId),
+                      );
+                      if (shortcut) shortcut.icon = icon_path;
                     } else if (!artworkOnly) {
                       listItem.shortcuts.addItem(appId, {
                         appid: steam.generateShortcutId(
@@ -423,7 +434,7 @@ export class VDF_Manager {
                         appname: app.title,
                         exe: app.executableLocation,
                         StartDir: app.startInDirectory,
-                        LaunchOptions: app.argumentString,
+                        LaunchOptions: launchOptions(app, userId, appId),
                         icon: icon_path,
                         tags: app.steamCategories,
                         ...(app.sortAsTitle && { sortas: app.sortAsTitle }),
@@ -436,7 +447,13 @@ export class VDF_Manager {
                   extraneousAppIds[steamDirectory][userId].push(appId);
                   stale.push(appId);
                 }
-                listItem.shortcuts.removeItem(appId);
+                if (superTypes[ArtworkOnlyType].includes(app.parserType)) {
+                  // (a Steam game, or a shortcut SRM didn't add: only its
+                  // artwork goes)
+                  forgetIcon(listItem, appId);
+                } else {
+                  listItem.shortcuts.removeItem(appId);
+                }
                 listItem.addedItems.removeItem(appId);
                 for (const artworkType of artworkTypes) {
                   listItem.screenshots.removeItem(
@@ -503,7 +520,8 @@ export class VDF_Manager {
               return;
             }
             for (const appId in addedApps) {
-              listItem.shortcuts.removeItem(appId);
+              if (addedApps[appId].artworkOnly) forgetIcon(listItem, appId);
+              else listItem.shortcuts.removeItem(appId);
               listItem.screenshots.removeItem(appId);
               for (let artworkType of artworkTypes) {
                 listItem.screenshots.removeItem(
@@ -527,4 +545,27 @@ export class VDF_Manager {
         });
     });
   }
+}
+
+// Its artwork going: a shortcut SRM didn't add stops pointing at the icon SRM
+// wrote (Steam then shows the executable's icon). Icons set otherwise stay.
+function forgetIcon(listItem: VDF_ListItem, appId: string) {
+  const shortAppId = steam.shortenAppId(appId);
+  const shortcut = listItem.shortcuts.getItemByShortAppId(shortAppId);
+  if (
+    typeof shortcut?.icon === "string" &&
+    path.resolve(path.dirname(shortcut.icon)) ===
+      path.resolve(listItem.screenshots.gridDir) &&
+    path.basename(shortcut.icon).startsWith(`${shortAppId}_icon.`)
+  ) {
+    shortcut.icon = "";
+  }
+}
+
+// A shortcut's launch options: the game's own, or (wrapped) running the file
+// SRM writes for the game (lib/launch-wrapper), which has the game's.
+function launchOptions(app: PreviewDataApp, userId: string, appId: string) {
+  return app.launchWrapper
+    ? wrapperArguments(wrapperFile(userId, steam.shortenAppId(appId)))
+    : app.argumentString;
 }

@@ -105,24 +105,29 @@ export class NgTextInputComponent implements ControlValueAccessor {
     this.writeValue((target as HTMLElement).textContent ?? "", true);
   }
 
+  // A path picked with a Browse button: written the way this field writes
+  // paths (forward slashes, glob appended), as if typed.
+  setBrowsedPath(selectedPath: string) {
+    this.writeValue(
+      this.coreClient.client.callSync(
+        "support",
+        "browsedValue",
+        selectedPath,
+        this.currentValue,
+        {
+          appendGlob: this.appendGlob,
+          useForwardSlash: !!this.useForwardSlash,
+        },
+      ),
+    );
+  }
+
   writeValue(
     value: string,
     updateDom: boolean = true,
     selection?: { start: number; end: number },
   ): void {
     if (value !== this.currentValue) {
-      if (value && value.split("&:&")[0] == "_browse_") {
-        value = this.coreClient.client.callSync(
-          "support",
-          "browsedValue",
-          value.split("&:&")[1],
-          this.currentValue,
-          {
-            appendGlob: this.appendGlob,
-            useForwardSlash: !!this.useForwardSlash,
-          },
-        );
-      }
       this.currentValue = value;
       if (updateDom || this.highlight) this.setInnerHtml(value, selection);
       this.onChange(this.currentValue);

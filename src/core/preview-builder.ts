@@ -368,6 +368,7 @@ export class PreviewBuilder {
               images: images,
               overlayImages: config.overlayImages,
               executableLocation,
+              ...(file.launchWrapper && { launchWrapper: file.launchWrapper }),
             };
           } else {
             let currentCategories =

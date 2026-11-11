@@ -1,6 +1,7 @@
 import { OnlineProviderType, ArtworkType } from ".";
 import { Controllers } from "./controllers.model";
 import { ParserType, SteamInputEnabled } from "./parser.model";
+import { ScriptWrapperConfig } from "./launch-wrapper.model";
 
 export type ImageProviderAPI = Record<
   OnlineProviderType,
@@ -62,4 +63,5 @@ export interface UserConfiguration {
   // free-text name typed into compatToolNameCustom" instead.
   compatToolName: string;
   compatToolNameCustom: string;
+  scriptWrapper: ScriptWrapperConfig;
 }

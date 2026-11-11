@@ -378,21 +378,6 @@
         </div>
       </div>
     </div>
-    <div class="inputContainer" *ngIf="showShellScripts">
-      <div class="inlineGroup">
-        <div
-          class="clickButton dangerousButton"
-          [class.disabled]="ssService.isDownloading | async"
-          style="font-size: 0.85em"
-          (click)="ssService.download(true)"
-        >
-          {{ lang.text.forceDownload_btn }}
-        </div>
-        <div class="text" style="margin-left: 0.25em">
-          {{ lang.text.shellScripts_desc }}
-        </div>
-      </div>
-    </div>
   </div>
   <div>
     <div class="section">
@@ -407,6 +392,7 @@
         </div>
         <div class="directoryInput">
           <ng-text-input
+            #steamDirectoryField
             class="ngTextInput"
             [placeholder]="placeholderForOS.steamDirectory"
             [(ngModel)]="settings.environmentVariables.steamDirectory"
@@ -419,7 +405,7 @@
             class="clickButton2"
             [stateless]="true"
             [directory]="true"
-            (pathChange)="settings.environmentVariables.steamDirectory = $event"
+            (pathChange)="steamDirectoryField.setBrowsedPath($event)"
             >{{ lang.text.browse_btn }}</ng-path-input
           >
         </div>
@@ -451,6 +437,7 @@
         </div>
         <div class="directoryInput">
           <ng-text-input
+            #romsDirectoryField
             class="ngTextInput"
             [placeholder]="placeholderForOS.romsDirectory"
             [(ngModel)]="settings.environmentVariables.romsDirectory"
@@ -463,7 +450,7 @@
             class="clickButton2"
             [stateless]="true"
             [directory]="true"
-            (pathChange)="settings.environmentVariables.romsDirectory = $event"
+            (pathChange)="romsDirectoryField.setBrowsedPath($event)"
             >{{ lang.text.browse_btn }}</ng-path-input
           >
         </div>
@@ -476,6 +463,7 @@
         </div>
         <div class="directoryInput">
           <ng-text-input
+            #retroarchPathField
             class="ngTextInput"
             [placeholder]="placeholderForOS.retroarchPath"
             [(ngModel)]="settings.environmentVariables.retroarchPath"
@@ -488,7 +476,7 @@
             class="clickButton2"
             [stateless]="true"
             [directory]="false"
-            (pathChange)="settings.environmentVariables.retroarchPath = $event"
+            (pathChange)="retroarchPathField.setBrowsedPath($event)"
             >{{ lang.text.browse_btn }}</ng-path-input
           >
         </div>
@@ -501,6 +489,7 @@
         </div>
         <div class="directoryInput">
           <ng-text-input
+            #raCoresDirectoryField
             class="ngTextInput"
             [placeholder]="placeholderForOS.raCoresDirectory"
             [(ngModel)]="settings.environmentVariables.raCoresDirectory"
@@ -513,9 +502,7 @@
             class="clickButton2"
             [stateless]="true"
             [directory]="true"
-            (pathChange)="
-              settings.environmentVariables.raCoresDirectory = $event
-            "
+            (pathChange)="raCoresDirectoryField.setBrowsedPath($event)"
             >{{ lang.text.browse_btn }}</ng-path-input
           >
         </div>
@@ -528,6 +515,7 @@
         </div>
         <div class="directoryInput">
           <ng-text-input
+            #localImagesDirectoryField
             class="ngTextInput"
             [placeholder]="placeholderForOS.localImagesDirectory"
             [(ngModel)]="settings.environmentVariables.localImagesDirectory"
@@ -540,9 +528,7 @@
             class="clickButton2"
             [stateless]="true"
             [directory]="true"
-            (pathChange)="
-              settings.environmentVariables.localImagesDirectory = $event
-            "
+            (pathChange)="localImagesDirectoryField.setBrowsedPath($event)"
             >{{ lang.text.browse_btn }}</ng-path-input
           >
         </div>

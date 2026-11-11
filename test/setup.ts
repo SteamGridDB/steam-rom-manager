@@ -8,6 +8,9 @@ import * as path from "path";
 require.extensions[".md"] = (module: any, filename: string) => {
   module.exports = fs.readFileSync(filename, "utf8");
 };
+// (and the launch wrapper's scripts)
+require.extensions[".ps1"] = require.extensions[".md"];
+require.extensions[".sh"] = require.extensions[".md"];
 
 // src/paths reads SRM's data directory from here (as the CLI does); a fresh
 // temp dir per test file means tests never touch a real SRM install.

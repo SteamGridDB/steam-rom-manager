@@ -11,11 +11,15 @@ markdown {
 
   background-color: var(--color-markdown-background);
 
+  // The docs can be selected and copied (the app's global rule turns
+  // selection off, and "initial" inherited that from here).
+  user-select: text;
+
   * {
     box-sizing: border-box;
 
     cursor: initial;
-    user-select: initial;
+    user-select: text;
   }
 
   svg {

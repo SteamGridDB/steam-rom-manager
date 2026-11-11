@@ -32,6 +32,7 @@ export function markdownFor(load: (file: string) => string) {
           userAccounts: [load("user-accounts.md")],
           titleModifier: [
             load("title-modifier.md"),
+            load("title-waterfall.md"),
             load("what-is-app-id.md"),
             load("parser-variables.md"),
             load("parser-env-variables.md"),
@@ -42,9 +43,13 @@ export function markdownFor(load: (file: string) => string) {
             load("parser-variables.md"),
             load("parser-env-variables.md"),
           ],
-          titleFromVariable: [load("title-from-variable.md")],
+          titleFromVariable: [
+            load("title-from-variable.md"),
+            load("title-waterfall.md"),
+          ],
           sortAsFromVariable: [load("title-from-variable.md")],
-          fuzzyMatch: [load("fuzzy-matching.md")],
+          fuzzyMatch: [load("fuzzy-matching.md"), load("title-waterfall.md")],
+          scriptWrapper: [load("script-wrapper.md")],
           executableArgs: [
             load("executable-arguments.md"),
             load("what-is-app-id.md"),

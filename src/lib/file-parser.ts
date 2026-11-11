@@ -16,6 +16,8 @@ import {
   ParserType,
   initArtworkRecord,
   TitleModifiers,
+  TitleModifierKey,
+  TITLE_MODIFIER_KEYS,
 } from "../models";
 import { FuzzyMatcher } from "./fuzzy-matcher";
 import { VariableParser } from "./variable-parser";
@@ -37,6 +39,7 @@ import { getPath, getArgs, getStartDir } from "windows-shortcuts-ps";
 import * as xdgparse from "xdg-parse";
 import * as sgdbSearch from "./image-providers/sgdb-search";
 import { TitleModifierHandler } from "./title-modifier-handler";
+import { makeLaunchWrapper, wrapperExecutable } from "./launch-wrapper";
 import { ruleFor, ruleTitle, searchQuery } from "../core/exceptions-format";
 
 interface PreParserResult {
@@ -148,6 +151,7 @@ export class FileParser {
           .then(this.parsedConfigFilesPromise.bind(this))
           .then(this.shortcutsPromise.bind(this))
           .then(this.appendArgsPromise.bind(this))
+          .then(this.launchWrapperPromise.bind(this))
 
           // exceptions are always last; they overwrite all other changes
           .then(this.userExceptionsPromise.bind(this))
@@ -619,6 +623,7 @@ export class FileParser {
               ? sortTitlesFromVariables[i] || ""
               : "",
             filePath: parsedData.success[i].filePath || "",
+            parserLaunchWrapper: parsedData.success[i].launchWrapper,
             imagePool: undefined,
             onlineImageQueries: undefined,
           };
@@ -895,6 +900,55 @@ export class FileParser {
         reject(
           `Append args to executable step for ${config.configTitle}:\n ${e}`,
         );
+      }
+    });
+  }
+
+  // Wrapped games (the parser's "Wrap shortcut in a shell script", or a
+  // parser's own wrapper): the shortcut runs SRM's launch script, which runs
+  // the game. Before the exceptions, which match games by app id: the
+  // script's executable is part of it.
+  private launchWrapperPromise({
+    superType,
+    config,
+    settings,
+    parsedConfig,
+    titleModifierHandler,
+  }: ParsedConfigFilesResults): Promise<ParsedConfigFilesResults> {
+    return new Promise((resolve, reject) => {
+      try {
+        if (superType !== parserInfo.ArtworkOnlyType) {
+          for (const file of parsedConfig.files) {
+            if (!file) continue;
+            // Steam would run the shell script with a forced compatibility
+            // tool (Proton...), which can't: those games stay unwrapped.
+            if (
+              os.type() === "Linux" &&
+              file.compatToolName &&
+              file.compatToolName !== steam.COMPAT_NONE
+            ) {
+              continue;
+            }
+            file.launchWrapper = makeLaunchWrapper(
+              file.modifiedExecutableLocation,
+              config.scriptWrapper,
+              file.parserLaunchWrapper,
+            );
+            if (file.launchWrapper) {
+              file.modifiedExecutableLocation = wrapperExecutable();
+            }
+          }
+        }
+        resolve({
+          superType,
+          config,
+          settings,
+          parsedConfig,
+          titleModifierHandler,
+        });
+      } catch (e) {
+        reject(`Launch wrapper step for ${config.configTitle}:
+ ${e}`);
       }
     });
   }
@@ -1538,17 +1592,16 @@ export class FileParser {
         output = variableData.titles["extracted"];
         break;
       case "SHORTCUTTITLE":
-        output = variableData.titles["postShortcutPassthrough"];
+        output = titleAt(variableData.titles, "postShortcutPassthrough");
         break;
       case "CUSTOMVARIABLETITLE":
-        output = variableData.titles["postCustomVariables"];
+        output = titleAt(variableData.titles, "postCustomVariables");
         break;
       case "FUZZYTITLE":
-        output =
-          variableData.titles["postFuzzy"] || variableData.titles["extracted"];
+        output = titleAt(variableData.titles, "postFuzzy");
         break;
       case "FINALTITLE":
-        output = variableData.titles["postTitleModifier"];
+        output = titleAt(variableData.titles, "postTitleModifier");
         break;
       case "PARSERTITLE":
         output =
@@ -1618,4 +1671,15 @@ export class FileParser {
       localImagesDirectory: settings.environmentVariables.localImagesDirectory,
     };
   }
+}
+
+// A title at a step of the title waterfall. A step that didn't change the
+// title (no custom variable matched, fuzzy matching failed or is off...) has
+// the title of the step before it, even before later steps have run.
+function titleAt(titles: TitleModifiers, step: TitleModifierKey) {
+  for (let s = TITLE_MODIFIER_KEYS.indexOf(step); s >= 0; s--) {
+    const title = titles[TITLE_MODIFIER_KEYS[s]];
+    if (title != null) return title;
+  }
+  return null;
 }

@@ -1,0 +1,37 @@
+@import "mixins";
+
+:host {
+  @include ngTextInput();
+  @include ngTextInputColor(input, true);
+
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+
+  > input {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+
+    font: inherit;
+    color: inherit;
+    caret-color: inherit;
+    border: none;
+    outline: none;
+    background: transparent;
+
+    cursor: text;
+    user-select: text;
+
+    // (the browser's up/down arrows don't take the theme's colors)
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+
+  > .unit {
+    color: var(--srm-text-muted);
+  }
+}

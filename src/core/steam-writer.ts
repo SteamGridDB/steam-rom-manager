@@ -25,6 +25,11 @@ import * as appImage from "../lib/helpers/app-image";
 import { artworkTypes } from "../lib/artwork-types";
 import * as fs from "fs-extra";
 import * as path from "path";
+import {
+  installLaunchScripts,
+  removeWrapperFiles,
+  writeWrapperFile,
+} from "../lib/launch-wrapper";
 import { ParsersStore } from "./parsers-store";
 import { SettingsStore } from "./settings-store";
 
@@ -170,6 +175,8 @@ export class SteamWriter {
           addedCats = addedCategories; //Added categories for all app ids
         },
       )
+      // Before the shortcuts: a wrapped game's shortcut runs its file.
+      .then(() => (removeAll ? undefined : this.writeLaunchWrappers(previewData)))
       .then(async () => {
         // Steam rewrites these files when it exits (collections, controller
         // settings in localconfig.vdf, compat tools in config.vdf): change
@@ -283,6 +290,7 @@ export class SteamWriter {
           savedOutcomes = outcomes;
         },
       )
+      .then(() => this.removeLaunchWrappers(exAppIds))
       .then(() => {
         if (removeAll) {
           this.loggerService.success(this.lang.success.removingVDF_entries, {
@@ -479,6 +487,50 @@ export class SteamWriter {
       };
     }
   }
+  // The files wrapped games' shortcuts run (lib/launch-wrapper), and SRM's
+  // launch script they call.
+  private async writeLaunchWrappers(previewData: PreviewData) {
+    let installed = false;
+    for (const users of Object.values(previewData)) {
+      for (const [userId, user] of Object.entries(users)) {
+        for (let [appId, app] of Object.entries(user.apps)) {
+          if (app.status !== "add" || !app.launchWrapper) continue;
+          if (!installed) {
+            await installLaunchScripts();
+            installed = true;
+          }
+          await writeWrapperFile(
+            userId,
+            steam.shortenAppId(app.changedId ?? appId),
+            {
+              title: app.title,
+              wrapper: app.launchWrapper,
+              launchOptions: app.argumentString,
+              startInDirectory: app.startInDirectory,
+            },
+          );
+        }
+      }
+    }
+  }
+
+  // Games removed from Steam: their files go (if they were wrapped). A
+  // failure here only leaves a file behind.
+  private async removeLaunchWrappers(exAppIds: VDF_ExtraneousItemsData) {
+    try {
+      for (const users of Object.values(exAppIds ?? {})) {
+        for (const [userId, appIds] of Object.entries(users)) {
+          await removeWrapperFiles(
+            userId,
+            appIds.map((appId) => steam.shortenAppId(appId)),
+          );
+        }
+      }
+    } catch (e) {
+      this.loggerService.error(`Could not remove launch wrappers: ${e?.message ?? e}`);
+    }
+  }
+
   // A save step whose expected failures (Acceptable_Error) are reported and
   // don't stop the rest of the save; anything else does.
   private async step(
