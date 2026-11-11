@@ -556,6 +556,7 @@ export class FileParser {
           config.parserInputs.legendaryLauncherMode ||
           config.parserInputs.gogLauncherMode ||
           config.parserInputs.amazonGamesLauncherMode ||
+          config.parserInputs.heroicLauncherMode ||
           config.parserInputs.uplayLauncherMode ||
           config.parserInputs.UWPLauncherMode ||
           config.parserInputs.eaLauncherMode ||

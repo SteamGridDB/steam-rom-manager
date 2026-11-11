@@ -155,6 +155,12 @@ export function markdownFor(load: (file: string) => string) {
         input: [load("quiver-launcher-parser-input.md")],
       },
     },
+    heroicParser: {
+      docs__md: {
+        self: [load("heroic-parser.md"), load("heroic-parser-input.md")],
+        input: [load("heroic-parser-input.md")],
+      },
+    },
     epicParser: {
       docs__md: {
         self: [load("epic-parser.md"), load("epic-parser-input.md")],

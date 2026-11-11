@@ -36,6 +36,7 @@ export const availableParserInputs: Record<ParserType, string[]> = {
   "Non-SRM Shortcuts": [],
   "GitHub Launcher": ["githubLauncherDir"],
   "Quiver Launcher": ["quiverLauncherDir"],
+  Heroic: ["heroicExeOverride", "heroicAppDataOverride", "heroicLauncherMode"],
 };
 export const availableParserInputsInfo: Record<
   ParserType,
@@ -90,6 +91,11 @@ export const availableParserInputsInfo: Record<
   "Non-SRM Shortcuts": {},
   "GitHub Launcher": { githubLauncherDir: { inputType: "dir" } },
   "Quiver Launcher": { quiverLauncherDir: { inputType: "dir" } },
+  Heroic: {
+    heroicExeOverride: { inputType: "path" },
+    heroicAppDataOverride: { inputType: "dir" },
+    heroicLauncherMode: { inputType: "toggle" },
+  },
 };
 
 export const availableParsers: ParserType[] = Object.keys(
@@ -112,6 +118,7 @@ export const superTypes: Record<SuperType, ParserType[]> = {
     "Battle.net",
     "GitHub Launcher",
     "Quiver Launcher",
+    "Heroic",
   ],
 };
 

@@ -67,6 +67,7 @@ In addition to flexible importing of ROMS, SRM now has several _platform parsers
 | [Battle.net](https://battle.net)                                   | ✅      | ❌     | 🟦    | <ul><li>Launch via Battle.net</li></ul>                               |
 | [GitHub Launcher](https://github.com/SirDiabo/GithubLauncher)      | ✅      | ❌     | ❌    | <ul><li>Launch via executable</li></ul>                               |
 | [Quiver Launcher](https://github.com/tgeorgiadis/quiver-launcher)  | ✅      | ❌     | ❌    | <ul><li>Launch via executable</li></ul>                               |
+| [Heroic](https://heroicgameslauncher.com/)                         | ✅      | ✅     | ✅    | <ul><li>Launch via Heroic</li><li>Launch via executable</li></ul>     |
 
 ✅ Implemented
 ❌ Planned
