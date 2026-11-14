@@ -29,26 +29,26 @@ Ajude a apoiar o progresso contínuo no Steam ROM Manager em:
 </a>
 
 ## Contribuições
-* `FrogTheFrog`{.noWrap} - Criador de SRM, não mais ativo no SRM, mas funcionando atualmente no Plugin [MoonDeck](https://github.com/FrogTheFrog/moondeck)
+* `FrogTheFrog`{.noWrap} - Criador de SRM, não mais ativo no SRM, mas atualmente a trabalhar no [Plug-in MoonDeck](https://github.com/FrogTheFrog/moondeck)
 
-### Mantedores atuais
+### Mantenedores atuais
 * `lontanadascienza`{.noWrap} - SRM atualizado para lidar com heróis, pósteres, logótipos e ícones.  Esmaga bugs quase tão rápido quanto ele os apresenta.
 * `Zennn`{.noWrap} — Suporte a categoria adicionado, localização de linguagem e o servidor de relatório de bug entre muitas outras coisas. Grande chefe no [SteamGridDB](https://www.steamgriddb.com/).
 * `KenCinder`{.noWrap} - Gere e cria predefinições de análise de comunidades e ajuda a configuração SRM do utilizador em [Discord](https://discord.gg/bnSVJrz).
 
-### Contribuições de Recursos
-* `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
-* `alvaromunoz`{.noWrap} - Parser de Passe de Jogo adicionado à SRM.
-* `lexarvn`{.noWrap} - Adicionado o parser Amazon Games e o analisador itch.io.
+### Contribuições de Funcionalidade
+* `dragoonDorise`{.noWrap} - Adicionou novos temas ao SRM.
+* `alvaromunoz`{.noWrap} - Adicionou o analisador de Passe de Jogo ao SRM.
+* `lexarvn`{.noWrap} - Adicionado o analisador de Amazon Games e o analisador de itch.io.
 * `CarJem`{.noWrap} - Adicionado o analisador manual.
 *
-* `Apalatn`{.noWrap} - Adicionada uma opção de redirecionamento de unidade de instalação ao parser itch.io.
-* `OneMoreByte`{.noWrap} - Feito parser da itch.io em Linux e Mac.
+* `Apalatn`{.noWrap} - Adicionada uma opção de redirecionamento de unidade de instalação ao analisador de itch.io.
+* `OneMoreByte`{.noWrap} - Fez com que o analisador de itch.io funcionasse no Linux e Mac.
 * `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
 * `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
 
-### Community
-* `HE Spoke`{.noWrap} - created a community around SRM. `HE Spoke`{.noWrap} - created a community around SRM. Creator of [Steam](https://steamcommunity.com/groups/steamrommanager) and [Discord](https://discord.gg/bnSVJrz) groups. `HE Spoke`{.noWrap} - created a community around SRM. Creator of [Steam](https://steamcommunity.com/groups/steamrommanager) and [Discord](https://discord.gg/bnSVJrz) groups.
-* `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
-*
+### Comunidade
+* `HE Spoke`{.noWrap} - criou uma comunidade ao redor de SRM. Criador dos grupos do [Steam](https://steamcommunity.com/groups/steamrommanager) e [Discord](https://discord.gg/bnSVJrz). Também ajuda os utilizadores a configurar SRM no [Discord](https://discord.gg/bnSVJrz).
+* `livedeht`{.noWrap} - Ajuda os utilizadores a configurar SRM com e sem [EmuDeck](https://www.emudeck.com/). Mantenedor atual de [EmuDeck](https://www.emudeck.com/).
+* `Choko`{.noWrap} - Ajuda os utilizadores a configurar SRM no [Discord](https://discord.gg/bnSVJrz).
 *
