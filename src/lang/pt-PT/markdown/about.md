@@ -1,20 +1,20 @@
-##
+## Informação do sistema
 
-. :
+No caso de ter problemas com a SRM, não hesite em visitar o [discord](https://discord.gg/bnSVJrz) ou o [subreddit](https://www.reddit.com/r/SteamRomManager/) e solicite a nossa ajuda. Para nós podermos ajudá-lo, nós gostaríamos que fornecesse esta informação:
 
-*
-*
+* Versão SRM: **#{APP[version]}** emudeckText
+* Sistema operativo: **#{APP[os]}**
 
-##
+## Hiperligações úteis
 
-* [Versões SRM](https://github.com/SteamGridDB/steam-rom-manager/releases)
+* [Lançamentos SRM](https://github.com/SteamGridDB/steam-rom-manager/releases)
 * [Servidor do Discord](https://discord.gg/bnSVJrz)
-* [](https://www.reddit.com/r/SteamRomManager/)
-* [Grupo Steam](https://steamcommunity.com/groups/steamrommanager)
+* [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
+* [Grupo do Steam](https://steamcommunity.com/groups/steamrommanager)
 * [Repositório no GitHub](https://github.com/SteamGridDB/steam-rom-manager)
-* [](https://crowdin.com/project/steam-rom-manager)
+* [Projeto de Tradução na Crowdin](https://crowdin.com/project/steam-rom-manager)
 
-## Suporte
+## Apoio
 
 Ajude a apoiar o progresso contínuo no Steam ROM Manager em:
 
