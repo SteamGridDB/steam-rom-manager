@@ -1,59 +1,59 @@
 # Star Tracker Report
 
-**2026-11-16** | Total: **2623 stars** | Change: **+1**
+**2026-11-17** | Total: **2625 stars** | Change: **+2**
 
-> Compared to snapshot from 2026-11-15
+> Compared to snapshot from 2026-11-16
 
 ## 📈 Star Trend
 
-![Star history from 2026-09-26 to 2026-11-16: 2581 to 2623 stars](./charts/star-history.svg)
+![Star history from 2026-09-27 to 2026-11-17: 2581 to 2625 stars](./charts/star-history.svg)
 
 ### By Repository
 
-![Stars per repository on 2026-11-16: SteamGridDB/steam-rom-manager with 2612 stars, cbartondock/node-binary-vdf with 3 stars, cbartondock/PortableEnv with 2 stars, cbartondock/Windwaker with 2 stars, cbartondock/chaos with 1 stars, cbartondock/riemann-sphere with 1 stars, cbartondock/tak-concept-art with 1 stars, stephan-x-liu/sublimechat with 1 stars, cbartondock/academicpages.github.io with 0 stars, cbartondock/discordBadge with 0 stars](./charts/comparison.svg)
+![Stars per repository on 2026-11-17: SteamGridDB/steam-rom-manager with 2614 stars, cbartondock/node-binary-vdf with 3 stars, cbartondock/PortableEnv with 2 stars, cbartondock/Windwaker with 2 stars, cbartondock/chaos with 1 stars, cbartondock/riemann-sphere with 1 stars, cbartondock/tak-concept-art with 1 stars, stephan-x-liu/sublimechat with 1 stars, cbartondock/academicpages.github.io with 0 stars, cbartondock/discordBadge with 0 stars](./charts/comparison.svg)
 
 <details>
 <summary>Individual Repository Charts</summary>
 
-#### SteamGridDB/steam-rom-manager: 2612 ★ (+1)
+#### SteamGridDB/steam-rom-manager: 2614 ★ (+2)
 
-![Star history of SteamGridDB/steam-rom-manager from 2026-09-26 to 2026-11-16: 2570 to 2612 stars](./charts/SteamGridDB-steam-rom-manager.svg)
+![Star history of SteamGridDB/steam-rom-manager from 2026-09-27 to 2026-11-17: 2570 to 2614 stars](./charts/SteamGridDB-steam-rom-manager.svg)
 
 #### cbartondock/node-binary-vdf: 3 ★ (0)
 
-![Star history of cbartondock/node-binary-vdf from 2026-09-26 to 2026-11-16: 3 to 3 stars](./charts/cbartondock-node-binary-vdf.svg)
+![Star history of cbartondock/node-binary-vdf from 2026-09-27 to 2026-11-17: 3 to 3 stars](./charts/cbartondock-node-binary-vdf.svg)
 
 #### cbartondock/PortableEnv: 2 ★ (0)
 
-![Star history of cbartondock/PortableEnv from 2026-09-26 to 2026-11-16: 2 to 2 stars](./charts/cbartondock-PortableEnv.svg)
+![Star history of cbartondock/PortableEnv from 2026-09-27 to 2026-11-17: 2 to 2 stars](./charts/cbartondock-PortableEnv.svg)
 
 #### cbartondock/Windwaker: 2 ★ (0)
 
-![Star history of cbartondock/Windwaker from 2026-09-26 to 2026-11-16: 2 to 2 stars](./charts/cbartondock-Windwaker.svg)
+![Star history of cbartondock/Windwaker from 2026-09-27 to 2026-11-17: 2 to 2 stars](./charts/cbartondock-Windwaker.svg)
 
 #### cbartondock/chaos: 1 ★ (0)
 
-![Star history of cbartondock/chaos from 2026-09-26 to 2026-11-16: 1 to 1 stars](./charts/cbartondock-chaos.svg)
+![Star history of cbartondock/chaos from 2026-09-27 to 2026-11-17: 1 to 1 stars](./charts/cbartondock-chaos.svg)
 
 #### cbartondock/riemann-sphere: 1 ★ (0)
 
-![Star history of cbartondock/riemann-sphere from 2026-09-26 to 2026-11-16: 1 to 1 stars](./charts/cbartondock-riemann-sphere.svg)
+![Star history of cbartondock/riemann-sphere from 2026-09-27 to 2026-11-17: 1 to 1 stars](./charts/cbartondock-riemann-sphere.svg)
 
 #### cbartondock/tak-concept-art: 1 ★ (0)
 
-![Star history of cbartondock/tak-concept-art from 2026-09-26 to 2026-11-16: 1 to 1 stars](./charts/cbartondock-tak-concept-art.svg)
+![Star history of cbartondock/tak-concept-art from 2026-09-27 to 2026-11-17: 1 to 1 stars](./charts/cbartondock-tak-concept-art.svg)
 
 #### stephan-x-liu/sublimechat: 1 ★ (0)
 
-![Star history of stephan-x-liu/sublimechat from 2026-09-26 to 2026-11-16: 1 to 1 stars](./charts/stephan-x-liu-sublimechat.svg)
+![Star history of stephan-x-liu/sublimechat from 2026-09-27 to 2026-11-17: 1 to 1 stars](./charts/stephan-x-liu-sublimechat.svg)
 
 #### cbartondock/academicpages.github.io: 0 ★ (0)
 
-![Star history of cbartondock/academicpages.github.io from 2026-09-26 to 2026-11-16: 0 to 0 stars](./charts/cbartondock-academicpages.github.io.svg)
+![Star history of cbartondock/academicpages.github.io from 2026-09-27 to 2026-11-17: 0 to 0 stars](./charts/cbartondock-academicpages.github.io.svg)
 
 #### cbartondock/discordBadge: 0 ★ (0)
 
-![Star history of cbartondock/discordBadge from 2026-09-26 to 2026-11-16: 0 to 0 stars](./charts/cbartondock-discordBadge.svg)
+![Star history of cbartondock/discordBadge from 2026-09-27 to 2026-11-17: 0 to 0 stars](./charts/cbartondock-discordBadge.svg)
 
 </details>
 
@@ -61,7 +61,7 @@
 
 | Repositories | Stars | Change | Trend |
 |:-----------|------:|-------:|:-----:|
-| [SteamGridDB/steam-rom-manager](https://github.com/SteamGridDB/steam-rom-manager) | 2612 | +1 | ⬆️ |
+| [SteamGridDB/steam-rom-manager](https://github.com/SteamGridDB/steam-rom-manager) | 2614 | +2 | ⬆️ |
 | [cbartondock/node-binary-vdf](https://github.com/cbartondock/node-binary-vdf) | 3 | 0 | ➖ |
 | [cbartondock/PortableEnv](https://github.com/cbartondock/PortableEnv) | 2 | 0 | ➖ |
 | [cbartondock/Windwaker](https://github.com/cbartondock/Windwaker) | 2 | 0 | ➖ |
@@ -88,9 +88,9 @@
 
 ## Summary
 
-- **Stars gained:** 1
+- **Stars gained:** 2
 - **Stars lost:** 0
-- **Net change:** +1
+- **Net change:** +2
 
 ## 👤 New Stargazers
 
@@ -102,10 +102,10 @@ No new stargazers since last run
 
 | Method | Week 1 | Week 2 | Week 3 | Week 4 |
 |:---|---:|---:|---:|---:|
-| Linear Regression | 2629 | 2635 | 2641 | 2647 |
-| Weighted Moving Average | 2629 | 2635 | 2641 | 2648 |
+| Linear Regression | 2631 | 2637 | 2643 | 2649 |
+| Weighted Moving Average | 2631 | 2638 | 2644 | 2651 |
 
-![Growth forecast from 2026-11-16 to 2026-12-14: 2623 stars on 2026-11-16, projected to reach 2647 by Linear Regression, 2648 by Weighted Moving Average](./charts/forecast.svg)
+![Growth forecast from 2026-11-17 to 2026-12-15: 2625 stars on 2026-11-17, projected to reach 2649 by Linear Regression, 2651 by Weighted Moving Average](./charts/forecast.svg)
 
 ### By Repository
 
@@ -116,8 +116,8 @@ No new stargazers since last run
 
 | Method | Week 1 | Week 2 | Week 3 | Week 4 |
 |:---|---:|---:|---:|---:|
-| Linear Regression | 2618 | 2624 | 2630 | 2636 |
-| Weighted Moving Average | 2618 | 2624 | 2630 | 2637 |
+| Linear Regression | 2620 | 2626 | 2632 | 2638 |
+| Weighted Moving Average | 2620 | 2627 | 2633 | 2640 |
 
 </details>
 
@@ -230,7 +230,7 @@ No new stargazers since last run
 </details>
 
 ---
-*Generated by [GitHub Star Tracker](https://github.com/fbuireu/github-star-tracker) on 2026-11-16T04:44:34.887Z*
+*Generated by [GitHub Star Tracker](https://github.com/fbuireu/github-star-tracker) on 2026-11-17T06:31:19.546Z*
 <div align="center">
 
 *Made with 🤘 by [Ferran Buireu](https://github.com/fbuireu)*
